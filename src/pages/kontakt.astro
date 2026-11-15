@@ -4,8 +4,8 @@ import PageHead from '../components/PageHead.astro';
 import { site } from '../data/site';
 ---
 
-<Base title="Kontakt" description="Napíšte, čo riešite. Odpoviem do dvoch pracovných dní.">
-  <PageHead title="Napíšte, čo riešite." lede="Stačí pár viet. Odpoviem do dvoch pracovných dní, aj keby odpoveď bola, že vám pomôcť neviem." />
+<Base title="Kontakt" description="Napíšte, čo riešite. Odpovieme do dvoch pracovných dní.">
+  <PageHead title="Napíšte, čo riešite." lede="Stačí pár viet. Odpovieme do dvoch pracovných dní, aj keby odpoveď bola, že vám pomôcť nevieme." />
 
   <section class="section wrap cols">
     <div>
@@ -30,14 +30,14 @@ import { site } from '../data/site';
           <label>Web <input name="website" tabindex="-1" autocomplete="off" /></label>
         </div>
         <p class="fineprint">
-          Údaje použijem len na odpoveď na vašu správu. Podrobnosti sú v <a href="/ochrana-sukromia/">ochrane súkromia</a>.
+          Údaje použijeme len na odpoveď na vašu správu. Podrobnosti sú v <a href="/ochrana-sukromia/">ochrane osobných údajov</a>.
         </p>
         <p data-status role="status"></p>
         <button class="btn" type="submit">Odoslať <span class="arrow" aria-hidden="true">→</span></button>
       </form>
       <div id="hotovo" class="done" tabindex="-1" hidden>
         <h2>Ďakujem, správa prišla.</h2>
-        <p class="lede">Ozvem sa do dvoch pracovných dní.</p>
+        <p class="lede">Ozveme sa do dvoch pracovných dní.</p>
       </div>
     </div>
 
@@ -46,7 +46,7 @@ import { site } from '../data/site';
       <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
       <h2>Chcete konkrétnejšiu odpoveď</h2>
       <p>
-        Prejdite <a href="/mixer/">mixérom</a>. Zaberie dve minúty a ja budem hneď vedieť, s čím prichádzate.
+        Prejdite <a href="/mixer/">mixérom</a>. Zaberie dve minúty a my budeme hneď vedieť, s čím prichádzate.
       </p>
     </aside>
   </section>
@@ -61,8 +61,7 @@ import { site } from '../data/site';
 <style>
   .cols {
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-    gap: 3rem clamp(2rem, 6vw, 7rem);
+    gap: 3rem;
     align-items: start;
   }
   .form {
@@ -80,7 +79,7 @@ import { site } from '../data/site';
   }
   aside h2 {
     font-size: var(--step-1);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
     line-height: 1.2;
   }
   aside p {
@@ -101,9 +100,17 @@ import { site } from '../data/site';
   .done .lede {
     margin-top: 1.25rem;
   }
-  @media (max-width: 56rem) {
+  .form .btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+  @media (min-width: 56rem) {
     .cols {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      gap: 3rem clamp(2rem, 6vw, 7rem);
+    }
+    .form .btn {
+      width: auto;
     }
   }
 </style>

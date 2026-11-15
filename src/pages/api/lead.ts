@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { site } from '../../data/site';
 
 export const prerender = false;
 
@@ -21,10 +22,11 @@ export const POST: APIRoute = async ({ request }) => {
   const email = clean(body.email, 200);
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'validation' }, 422);
 
-  const key = import.meta.env.BREVO_API_KEY;
-  const to = import.meta.env.LEAD_TO_EMAIL;
+  const key = import.meta.env.RESEND_API_KEY;
+  const to = import.meta.env.LEAD_TO_EMAIL || site.email;
+  // Odosielateľ musí byť z domény overenej v Resend.
   const from = import.meta.env.LEAD_FROM_EMAIL;
-  if (!key || !to || !from) return json({ error: 'not-configured' }, 503);
+  if (!key || !from) return json({ error: 'not-configured' }, 503);
 
   const labels: Record<string, string> = {
     company: 'Firma / web',
@@ -48,15 +50,16 @@ export const POST: APIRoute = async ({ request }) => {
     if (value) lines.push(`${label}: ${value}`);
   }
 
-  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+  const role = clean(body.role, 80);
+  const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { 'api-key': key, 'content-type': 'application/json', accept: 'application/json' },
+    headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
     body: JSON.stringify({
-      sender: { email: from, name: 'thetittels.sk' },
-      to: [{ email: to }],
-      replyTo: { email, name },
-      subject: `Dopyt z webu: ${name}${clean(body.role, 80) ? ` (${clean(body.role, 80)})` : ''}`,
-      textContent: lines.join('\n'),
+      from: `thetittels.sk <${from}>`,
+      to: [to],
+      reply_to: email,
+      subject: `Dopyt z webu: ${name}${role ? ` (${role})` : ''}`,
+      text: lines.join('\n'),
     }),
   });
 

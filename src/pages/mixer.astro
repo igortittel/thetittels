@@ -11,17 +11,20 @@ const fieldName: Record<string, string> = { company: 'business' };
 ---
 
 <Base
-  title="Mixér: zistite, čím vám viem byť"
-  description="Štyri krátke kroky. Označíte, čo riešite, a dostanete odporúčanie, s čím vám viem pomôcť a v akej role."
+  title="Mixér: zistite, čím vám vieme byť"
+  description="Štyri krátke kroky. Označíte, čo riešite, a dostanete odporúčanie, s čím vám vieme pomôcť a v akej role."
 >
   <PageHead
     title="Mixér"
-    lede="Štyri krátke kroky. Na konci uvidíte, v akej role vám viem pomôcť, a ja dostanem dosť informácií na to, aby som sa ozval s konkrétnym návrhom."
+    lede="Štyri krátke kroky. Na konci uvidíte, v akej role vám vieme pomôcť, a my budeme vedieť dosť na to, aby sme sa ozvali s konkrétnym návrhom."
   />
 
   <section class="section wrap">
     <form class="wiz" data-lead="mixer" data-email={site.email} data-done="#hotovo">
-      <p class="wiz__progress" data-progress aria-live="polite"></p>
+      <div class="wiz__top">
+        <p class="wiz__progress" data-progress aria-live="polite"></p>
+        <div class="wiz__bar" aria-hidden="true"><span data-bar></span></div>
+      </div>
 
       <div class="wiz__step" data-step>
         <fieldset>
@@ -62,13 +65,13 @@ const fieldName: Record<string, string> = { company: 'business' };
 
       <div class="wiz__step" data-step>
         <div class="wiz__result" data-result hidden>
-          <p class="wiz__pre">Podľa odpovedí vám viem byť</p>
+          <p class="wiz__pre">Podľa odpovedí vám vieme byť</p>
           <p class="wiz__role" data-role></p>
           <p data-text></p>
           <ul data-services></ul>
         </div>
         <fieldset class="wiz__contact">
-          <legend>Kam sa mám ozvať</legend>
+          <legend>Kam sa máme ozvať</legend>
           <div class="grid">
             <div class="field">
               <label for="m-name">Meno</label>
@@ -95,7 +98,7 @@ const fieldName: Record<string, string> = { company: 'business' };
             <label>Web <input name="website" tabindex="-1" autocomplete="off" /></label>
           </div>
           <p class="fineprint">
-            Údaje použijem len na odpoveď na váš dopyt. Podrobnosti sú v <a href="/ochrana-sukromia/">ochrane súkromia</a>.
+            Údaje použijeme len na odpoveď na váš dopyt. Podrobnosti sú v <a href="/ochrana-sukromia/">ochrane osobných údajov</a>.
           </p>
         </fieldset>
       </div>
@@ -110,8 +113,8 @@ const fieldName: Record<string, string> = { company: 'business' };
     </form>
 
     <div id="hotovo" class="done" tabindex="-1" hidden>
-      <h2>Ďakujem, mám to.</h2>
-      <p class="lede">Ozvem sa do dvoch pracovných dní s konkrétnym návrhom ďalšieho kroku.</p>
+      <h2>Ďakujeme, máme to.</h2>
+      <p class="lede">Ozveme sa do dvoch pracovných dní s konkrétnym návrhom ďalšieho kroku.</p>
       <p><a class="textlink" href="/blog/">Zatiaľ si môžete prečítať blog</a></p>
     </div>
   </section>
@@ -130,6 +133,7 @@ const fieldName: Record<string, string> = { company: 'business' };
   const next = form.querySelector<HTMLButtonElement>('[data-next]')!;
   const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
   const result = form.querySelector<HTMLElement>('[data-result]')!;
+  const bar = form.querySelector<HTMLElement>('[data-bar]')!;
   let current = 0;
 
   const picked = () => [...form.querySelectorAll<HTMLInputElement>('input[name="p"]:checked')];
@@ -167,8 +171,13 @@ const fieldName: Record<string, string> = { company: 'business' };
   };
 
   const go = (to: number, focus = true) => {
+    const dir = to < current ? 'back' : 'fwd';
     current = Math.max(0, Math.min(stepEls.length - 1, to));
-    stepEls.forEach((el, i) => (el.hidden = i !== current));
+    stepEls.forEach((el, i) => {
+      el.hidden = i !== current;
+      el.dataset.dir = dir;
+    });
+    bar.style.transform = `scaleX(${(current + 1) / stepEls.length})`;
     const last = current === stepEls.length - 1;
     back.hidden = current === 0;
     next.hidden = last;
@@ -215,12 +224,51 @@ const fieldName: Record<string, string> = { company: 'business' };
   .wiz {
     max-width: 58rem;
   }
+  .wiz__top {
+    display: none;
+    margin-bottom: 2rem;
+  }
+  .wiz:global(.is-wizard) .wiz__top {
+    display: block;
+  }
   .wiz__progress {
     font-size: var(--step--1);
     color: var(--ink-soft);
-    margin-bottom: 1.5rem;
-    min-height: 1.5em;
-    font-variant-numeric: tabular-nums;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .wiz__bar {
+    height: 6px;
+    margin-top: 0.6rem;
+    border-radius: 999px;
+    background: var(--mist);
+    overflow: hidden;
+  }
+  .wiz__bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--lime-deep);
+    transform: scaleX(0.25);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease);
+  }
+  .wiz:global(.is-wizard) .wiz__step:not([hidden]) {
+    animation: step-in 0.55s var(--ease) both;
+  }
+  .wiz:global(.is-wizard) .wiz__step[data-dir='back']:not([hidden]) {
+    animation-name: step-back;
+  }
+  @keyframes step-in {
+    from {
+      opacity: 0;
+      transform: translateX(1.75rem);
+    }
+  }
+  @keyframes step-back {
+    from {
+      opacity: 0;
+      transform: translateX(-1.75rem);
+    }
   }
   .wiz__step + .wiz__step {
     margin-top: 3rem;
@@ -244,7 +292,7 @@ const fieldName: Record<string, string> = { company: 'business' };
     font-weight: 600;
     font-size: var(--step-2);
     line-height: 1.1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   legend:focus {
     outline: none;
@@ -278,7 +326,7 @@ const fieldName: Record<string, string> = { company: 'business' };
     font-weight: 600;
     font-size: var(--step-3);
     line-height: 1;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
     color: var(--lime);
     text-wrap: balance;
   }
@@ -295,7 +343,6 @@ const fieldName: Record<string, string> = { company: 'business' };
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
   }
   .wide {
@@ -316,15 +363,25 @@ const fieldName: Record<string, string> = { company: 'business' };
     gap: 0.75rem;
     margin-top: 0.75rem;
   }
+  .wiz__nav [data-next],
+  .wiz__nav [data-submit] {
+    flex: 1;
+    justify-content: space-between;
+  }
   .done:focus {
     outline: none;
   }
   .done .lede {
     margin-block: 1.25rem 1.75rem;
   }
-  @media (max-width: 40rem) {
+  @media (min-width: 40rem) {
     .grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .wiz__nav [data-next],
+    .wiz__nav [data-submit] {
+      flex: none;
+      justify-content: flex-start;
     }
   }
 </style>

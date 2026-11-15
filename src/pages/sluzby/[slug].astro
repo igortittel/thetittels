@@ -48,21 +48,21 @@ const schema = [
   </PageHead>
 
   <section class="section wrap split" aria-labelledby="h-kedy">
-    <h2 id="h-kedy">Kedy to dáva zmysel</h2>
+    <h2 id="h-kedy" data-reveal="mask">Kedy to dáva zmysel</h2>
     <ul class="big">
-      {service.when.map((item) => <li>{item}</li>)}
+      {service.when.map((item, i) => <li data-reveal style={`--i:${i}`}>{item}</li>)}
     </ul>
   </section>
 
   <section class="section wrap split" aria-labelledby="h-co">
-    <h2 id="h-co">Čo dostanete</h2>
+    <h2 id="h-co" data-reveal="mask">Čo dostanete</h2>
     <ul class="plain">
-      {service.get.map((item) => <li>{item}</li>)}
+      {service.get.map((item, i) => <li data-reveal style={`--i:${i}`}>{item}</li>)}
     </ul>
   </section>
 
   <section class="section wrap split" aria-labelledby="h-faq">
-    <h2 id="h-faq">Časté otázky</h2>
+    <h2 id="h-faq" data-reveal="mask">Časté otázky</h2>
     <dl class="faq">
       {
         service.faq.map((f) => (
@@ -78,7 +78,7 @@ const schema = [
   <section class="section">
     <div class="band">
       <div class="wrap band__in">
-        <p>Napíšte, ako to máte dnes. Poviem vám, či a ako viem pomôcť.</p>
+        <p data-reveal>Napíšte, ako to máte dnes. Povieme vám, či a ako vieme pomôcť.</p>
         <div class="band__btns">
           <a class="btn" href="/kontakt/">Napísať <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn--ghost" href="/mixer/">Prejsť mixérom</a>
@@ -117,8 +117,7 @@ const schema = [
   }
   .split {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    gap: 1.5rem clamp(2rem, 5vw, 6rem);
+    gap: 1.5rem;
     align-items: start;
   }
   h2 {
@@ -130,7 +129,7 @@ const schema = [
     font-weight: 500;
     font-size: var(--step-2);
     line-height: 1.15;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
     padding-block: 1.4rem;
     border-bottom: 1px solid var(--line);
     text-wrap: balance;
@@ -156,7 +155,7 @@ const schema = [
     font-weight: 600;
     font-size: var(--step-1);
     line-height: 1.2;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
   }
   .faq dd {
     margin: 0.6rem 0 0;
@@ -179,7 +178,7 @@ const schema = [
     font-weight: 600;
     font-size: var(--step-3);
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     max-width: 20ch;
     text-wrap: balance;
   }
@@ -190,7 +189,7 @@ const schema = [
   }
   .small {
     font-size: var(--step-1);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
   }
   .others {
     display: flex;
@@ -203,9 +202,10 @@ const schema = [
     min-height: 2.75rem;
     align-items: center;
   }
-  @media (max-width: 56rem) {
+  @media (min-width: 56rem) {
     .split {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: 1.5rem clamp(2rem, 5vw, 6rem);
     }
   }
 </style>

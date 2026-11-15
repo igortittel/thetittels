@@ -27,12 +27,13 @@ S `draft: true` sa nezverejní.
 
 Vzor je v `.env.example`.
 
-- `BREVO_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`: odosielanie dopytov z formulárov e-mailom cez Brevo.
-  Bez nich formuláre vrátia chybu a návštevníka odkážu na e-mail.
+- `RESEND_API_KEY`, `LEAD_FROM_EMAIL`: odosielanie dopytov z formulárov e-mailom cez Resend.
+  `LEAD_FROM_EMAIL` musí byť adresa na doméne overenej v Resend. Bez týchto hodnôt formuláre vrátia
+  chybu a návštevníka odkážu na e-mail.
+- `LEAD_TO_EMAIL`: kam dopyty chodia (predvolene e-mail zo `src/data/site.ts`).
 - `PUBLIC_GTM_ID`: Google Tag Manager. Keď je nastavené, načíta sa GTM s Consent Mode v2 a cookie lišta.
 
 ## Pred spustením
 
-- Doplniť skutočný e-mail v `src/data/site.ts`.
-- Doplniť údaje prevádzkovateľa v `src/pages/ochrana-sukromia.astro` (stránka je zatiaľ návrh).
+- Doplniť údaje prevádzkovateľa v `src/pages/ochrana-sukromia.astro` (miesta v hranatých zátvorkách).
 - Skontrolovať texty, najmä `O nás` a dva úvodné články.

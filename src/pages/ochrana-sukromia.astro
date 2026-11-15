@@ -4,37 +4,91 @@ import PageHead from '../components/PageHead.astro';
 import { site } from '../data/site';
 ---
 
-<!-- NÁVRH: pred spustením doplniť údaje prevádzkovateľa a nechať skontrolovať. -->
-<Base title="Ochrana súkromia" noindex>
-  <PageHead title="Ochrana súkromia" />
+<!-- Miesta v [hranatých zátvorkách] treba doplniť. Kým nie sú doplnené, stránka má noindex. -->
+<Base
+  title="Ochrana a spracovanie osobných údajov"
+  description="Aké osobné údaje The Tittels spracúva, prečo, ako dlho a aké máte práva."
+  noindex
+>
+  <PageHead
+    title="Ochrana a spracovanie osobných údajov"
+    lede="Zbierame len to, čo potrebujeme na odpoveď na váš dopyt. Nič nepredávame a nikomu neposielame nevyžiadané správy."
+  />
   <section class="section wrap">
     <div class="prose">
-      <p><strong>Pracovný návrh.</strong> Pred spustením webu treba doplniť údaje prevádzkovateľa a text skontrolovať.</p>
-      <h2>Kto údaje spracúva</h2>
-      <p>[Obchodné meno, sídlo, IČO]. Kontakt: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
-      <h2>Aké údaje a prečo</h2>
+      <h2>Prevádzkovateľ</h2>
       <p>
-        Keď odošlete kontaktný formulár alebo mixér, spracúvam meno, e-mail, prípadne telefón, názov firmy a obsah
-        správy. Používam ich výlučne na to, aby som vám odpovedal a pripravil ponuku. Právnym základom sú kroky pred
-        uzavretím zmluvy na vašu žiadosť.
+        Prevádzkovateľom osobných údajov je [obchodné meno], so sídlom [adresa], IČO [IČO], zapísaný v [register]
+        (ďalej „my“). Vo veciach osobných údajov nám napíšte na
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
       </p>
-      <h2>Ako dlho</h2>
-      <p>Ak k spolupráci nedôjde, údaje z dopytu vymažem najneskôr do [12 mesiacov].</p>
-      <h2>Kto má k údajom prístup</h2>
+
+      <h2>Aké údaje spracúvame a prečo</h2>
+      <h3>Kontaktný formulár a mixér</h3>
       <p>
-        Dopyty sa doručujú e-mailom cez službu Brevo a web beží na platforme Vercel. Obe spoločnosti vystupujú ako
-        sprostredkovatelia.
+        Keď nám pošlete správu alebo vyplníte mixér, spracúvame meno, e-mail, prípadne telefón, názov firmy alebo
+        adresu webu, vaše odpovede v mixéri a text správy. Údaje používame výlučne na to, aby sme vám odpovedali a
+        pripravili ponuku.
       </p>
-      <h2>Meranie návštevnosti</h2>
       <p>
-        Analytické a marketingové nástroje sa spúšťajú až po vašom súhlase v cookie lište. Súhlas môžete kedykoľvek
-        zmeniť vymazaním údajov stránky v prehliadači.
+        Právnym základom je vykonanie opatrení pred uzavretím zmluvy na vašu žiadosť (čl. 6 ods. 1 písm. b) GDPR).
       </p>
+      <h3>Spolupráca a fakturácia</h3>
+      <p>
+        Ak spolu začneme pracovať, spracúvame identifikačné a fakturačné údaje na plnenie zmluvy (čl. 6 ods. 1 písm. b)
+        GDPR) a na splnenie zákonných povinností, najmä účtovných a daňových (čl. 6 ods. 1 písm. c) GDPR).
+      </p>
+      <h3>Meranie návštevnosti</h3>
+      <p>
+        Analytické a marketingové nástroje (Google Tag Manager, Google Analytics 4) spúšťame len s vaším súhlasom
+        (čl. 6 ods. 1 písm. a) GDPR), ktorý udeľujete v cookie lište. Bez súhlasu sa do vášho zariadenia žiadne
+        analytické ani marketingové cookies neukladajú.
+      </p>
+
+      <h2>Ako dlho údaje uchovávame</h2>
+      <ul>
+        <li>Dopyty, z ktorých nevznikla spolupráca: najviac [12 mesiacov] od poslednej komunikácie.</li>
+        <li>Údaje zo zmlúv a faktúr: po dobu, ktorú ukladajú účtovné a daňové predpisy (spravidla 10 rokov).</li>
+        <li>Údaje z merania návštevnosti: podľa nastavenia nástroja, najviac [14 mesiacov].</li>
+      </ul>
+
+      <h2>Komu údaje sprístupňujeme</h2>
+      <p>Údaje nepredávame. Prístup k nim majú len dodávatelia, bez ktorých by web nefungoval:</p>
+      <ul>
+        <li>Vercel (prevádzka webu),</li>
+        <li>Resend (doručenie správy z formulára na náš e-mail),</li>
+        <li>poskytovateľ e-mailovej schránky [doplniť],</li>
+        <li>Google (meranie návštevnosti, len s vaším súhlasom),</li>
+        <li>účtovník, ak dôjde k fakturácii.</li>
+      </ul>
+      <p>
+        Niektorí z nich sídlia mimo Európskej únie. Prenos údajov sa v takom prípade riadi zárukami podľa GDPR,
+        napríklad štandardnými zmluvnými doložkami alebo rozhodnutím o primeranosti.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Web funguje aj bez cookies. Svoju voľbu z cookie lišty si pamätáme v úložisku vášho prehliadača. Zmeniť ju
+        môžete vymazaním údajov tejto stránky v nastaveniach prehliadača, lišta sa potom zobrazí znova.
+      </p>
+
       <h2>Vaše práva</h2>
+      <p>Podľa GDPR máte právo:</p>
+      <ul>
+        <li>vedieť, aké údaje o vás spracúvame, a získať ich kópiu,</li>
+        <li>žiadať opravu nepresných údajov,</li>
+        <li>žiadať vymazanie údajov alebo obmedzenie ich spracúvania,</li>
+        <li>namietať proti spracúvaniu,</li>
+        <li>na prenosnosť údajov,</li>
+        <li>kedykoľvek odvolať súhlas, ak je spracúvanie založené na ňom.</li>
+      </ul>
       <p>
-        Máte právo na prístup k údajom, ich opravu, vymazanie, obmedzenie spracúvania a právo namietať. Stačí napísať
-        na uvedený e-mail. Sťažnosť môžete podať na Úrad na ochranu osobných údajov SR.
+        Stačí napísať na <a href={`mailto:${site.email}`}>{site.email}</a>, odpovieme do 30 dní. Ak si myslíte, že s
+        vašimi údajmi nenakladáme správne, môžete podať návrh na začatie konania na Úrade na ochranu osobných údajov
+        Slovenskej republiky.
       </p>
+
+      <p>Tieto zásady platia od [dátum].</p>
     </div>
   </section>
 </Base>

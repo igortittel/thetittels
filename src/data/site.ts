@@ -3,11 +3,10 @@ export const site = {
   wordmark: ['the', 'tittels'],
   url: 'https://thetittels.sk',
   person: 'Igor Tittel',
-  // TODO: doplniť skutočný kontaktný e-mail.
-  email: 'ahoj@thetittels.sk',
+  email: 'we.are@thetittels.sk',
   locale: 'sk-SK',
   description:
-    'Platené kampane, meranie, marketingová automatizácia, weby a AI pre malé a stredné firmy. Dvanásť rokov praxe, bez omáčky.',
+    'Platené kampane, meranie, marketingová automatizácia, weby a AI pre malé a stredné firmy. Viac ako dvanásť rokov praxe, bez omáčky.',
   nav: [
     { href: '/sluzby/', label: 'Služby' },
     { href: '/mixer/', label: 'Mixér' },

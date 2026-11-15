@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
 
 <footer class="foot">
   <div class="wrap">
-    <p class="foot__big">
+    <p class="foot__big" data-reveal>
       Napíšte, čo riešite.<br />
       <a href={`mailto:${site.email}`}>{site.email}</a>
     </p>
@@ -21,7 +21,7 @@ const year = new Date().getFullYear();
         <h2>Web</h2>
         <ul>
           {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-          <li><a href="/ochrana-sukromia/">Ochrana súkromia</a></li>
+          <li><a href="/ochrana-sukromia/">Ochrana osobných údajov</a></li>
         </ul>
       </nav>
       <p class="foot__sig">
@@ -50,9 +50,11 @@ const year = new Date().getFullYear();
     font-weight: 600;
     font-size: var(--step-3);
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .foot__big a {
+    display: inline-block;
+    padding-block: 0.15em;
     color: var(--lime);
     text-decoration: none;
     overflow-wrap: anywhere;
@@ -79,7 +81,7 @@ const year = new Date().getFullYear();
   }
   li a {
     display: inline-flex;
-    min-height: 2.25rem;
+    min-height: 2.75rem;
     align-items: center;
     text-decoration: none;
   }
@@ -95,13 +97,17 @@ const year = new Date().getFullYear();
   }
   .logo {
     font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.04em;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
     text-decoration: none;
     color: var(--paper);
   }
   .logo span {
     font-weight: 300;
+    font-style: italic;
   }
 </style>

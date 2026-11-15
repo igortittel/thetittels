@@ -13,7 +13,7 @@ export const services: Service[] = [
     slug: 'platene-kampane',
     name: 'Platené kampane',
     short: 'Meta a Google Ads, ktoré sa riadia podľa zisku, nie podľa preklikov.',
-    lead: 'Nastavím a spravujem kampane v Meta a Google Ads. Rozpočet presúvam tam, kde zarába, a čo nezarába, vypnem. Každý mesiac viete, koľko ste minuli a čo ste za to dostali.',
+    lead: 'Nastavíme a spravujeme kampane v Meta a Google Ads. Rozpočet presúvame tam, kde zarába, a čo nezarába, vypneme. Každý mesiac viete, koľko ste minuli a čo ste za to dostali.',
     when: [
       'Do reklamy dávate peniaze a neviete povedať, či sa vracajú.',
       'Kampane beží niekto „popri práci" a mesiace sa v nich nič nezmenilo.',
@@ -27,11 +27,11 @@ export const services: Service[] = [
     faq: [
       {
         q: 'Aký rozpočet na reklamu dáva zmysel?',
-        a: 'Záleží na marži a cene objednávky. Pred spustením spolu spočítame, koľko môže stáť jeden zákazník, aby sa kampaň oplatila. Ak čísla nevychádzajú, poviem to skôr, než miniete prvé euro.',
+        a: 'Záleží na marži a cene objednávky. Pred spustením spolu spočítame, koľko môže stáť jeden zákazník, aby sa kampaň oplatila. Ak čísla nevychádzajú, povieme to skôr, než miniete prvé euro.',
       },
       {
         q: 'Preberiete aj existujúci účet?',
-        a: 'Áno. Čo v ňom funguje, nechám bežať. Nezačínam od nuly len preto, aby bolo vidieť zmenu.',
+        a: 'Áno. Čo v ňom funguje, necháme bežať. Nezačíname od nuly len preto, aby bolo vidieť zmenu.',
       },
     ],
   },
@@ -39,7 +39,7 @@ export const services: Service[] = [
     slug: 'nastavenie-trackingu',
     name: 'Nastavenie trackingu',
     short: 'GTM, GA4, Conversions API a e-commerce eventy, ktorým sa dá veriť.',
-    lead: 'Bez spoľahlivých dát sa kampane riadia podľa pocitu. Nastavím Google Tag Manager, GA4, Meta Conversions API a e-commerce meranie tak, aby čísla v nástrojoch sedeli s tým, čo vidíte v objednávkach.',
+    lead: 'Bez spoľahlivých dát sa kampane riadia podľa pocitu. Nastavíme Google Tag Manager, GA4, Meta Conversions API a e-commerce meranie tak, aby čísla v nástrojoch sedeli s tým, čo vidíte v objednávkach.',
     when: [
       'E-shop, GA4 a reklamné účty ukazujú každý iné čísla.',
       'Po zmene webu alebo cookie lišty prestali chodiť konverzie.',
@@ -57,7 +57,7 @@ export const services: Service[] = [
       },
       {
         q: 'Funguje meranie aj so súhlasmi podľa GDPR?',
-        a: 'Áno. Tagy naviažem na súhlas návštevníka cez Consent Mode, takže sa meria len to, na čo máte povolenie.',
+        a: 'Áno. Tagy naviažeme na súhlas návštevníka cez Consent Mode, takže sa meria len to, na čo máte povolenie.',
       },
     ],
   },
@@ -65,7 +65,7 @@ export const services: Service[] = [
     slug: 'marketingova-automatizacia',
     name: 'Marketingová automatizácia',
     short: 'Správa v pravý čas pravému človeku, bez ručného posielania.',
-    lead: 'Navrhnem a postavím automatizované scenáre: uvítaciu sériu, opustený košík, starostlivosť po nákupe aj návrat neaktívnych zákazníkov. Obsah sa prispôsobuje tomu, čo človek naozaj urobil.',
+    lead: 'Navrhneme a postavíme automatizované scenáre: uvítaciu sériu, opustený košík, starostlivosť po nákupe aj návrat neaktívnych zákazníkov. Obsah sa prispôsobuje tomu, čo človek naozaj urobil.',
     when: [
       'Všetkým kontaktom posielate ten istý newsletter.',
       'Zákazníci nakúpia raz a viac sa neozvú.',
@@ -79,7 +79,7 @@ export const services: Service[] = [
     faq: [
       {
         q: 'V akom nástroji pracujete?',
-        a: 'Pracujem s tým, čo už máte, ak to stačí. Nový nástroj odporučím až vtedy, keď ten súčasný brzdí to, čo potrebujete.',
+        a: 'Pracujeme s tým, čo už máte, ak to stačí. Nový nástroj odporučíme až vtedy, keď ten súčasný brzdí to, čo potrebujete.',
       },
       {
         q: 'Koľko kontaktov treba mať, aby sa to oplatilo?',
@@ -91,7 +91,7 @@ export const services: Service[] = [
     slug: 'omnichannel',
     name: 'Omnichannel',
     short: 'E-mail, SMS, reklama a obchodník ako jedna súvislá komunikácia.',
-    lead: 'Prepojím automatizáciu s priamou komunikáciou. Zákazník dostane nadväzujúce správy naprieč kanálmi a váš obchod alebo podpora vidí, čo sa s ním dialo predtým.',
+    lead: 'Prepojíme automatizáciu s priamou komunikáciou. Zákazník dostane nadväzujúce správy naprieč kanálmi a váš obchod alebo podpora vidí, čo sa s ním dialo predtým.',
     when: [
       'Kanály spravujú rôzni ľudia a navzájom o sebe nevedia.',
       'Zákazník dostane zľavu e-mailom deň po tom, čo nakúpil za plnú cenu.',
@@ -113,7 +113,7 @@ export const services: Service[] = [
     slug: 'automatizacia-procesov',
     name: 'Automatizácia procesov',
     short: 'Opakovanú ručnú prácu prenechajte systému.',
-    lead: 'Prejdem s vami, ako u vás práca naozaj prebieha, nájdem kroky, ktoré sa opakujú, a navrhnem, ako ich zjednodušiť alebo automatizovať. Najprv proces, až potom nástroj.',
+    lead: 'Prejdeme s vami, ako u vás práca naozaj prebieha, nájdeme kroky, ktoré sa opakujú, a navrhneme, ako ich zjednodušiť alebo automatizovať. Najprv proces, až potom nástroj.',
     when: [
       'Ľudia prepisujú údaje z jedného systému do druhého.',
       'Reporty, faktúry alebo ponuky skladáte každý týždeň ručne.',
@@ -135,7 +135,7 @@ export const services: Service[] = [
     slug: 'web-development',
     name: 'Web development',
     short: 'Weby a e-shopy na mieru. WordPress alebo vlastný kód.',
-    lead: 'Staviam weby a e-shopy, ktoré sú rýchle, dajú sa spravovať a majú meranie pripravené od prvého dňa. Na WordPresse tam, kde potrebujete redakčný systém, a vo vlastnom kóde tam, kde rozhoduje výkon.',
+    lead: 'Staviame weby a e-shopy, ktoré sú rýchle, dajú sa spravovať a majú meranie pripravené od prvého dňa. Na WordPresse tam, kde potrebujete redakčný systém, a vo vlastnom kóde tam, kde rozhoduje výkon.',
     when: [
       'Web je pomalý a každá úprava trvá týždne.',
       'Spúšťate nový produkt, službu alebo e-shop.',
@@ -149,7 +149,7 @@ export const services: Service[] = [
     faq: [
       {
         q: 'WordPress alebo vlastný kód?',
-        a: 'WordPress sa hodí, keď obsah upravuje viac ľudí a potrebujete hotové rozšírenia. Vlastný kód je vhodný pre menší web, kde chcete maximálnu rýchlosť a minimum údržby. Odporučím to, čo vám ušetrí viac starostí.',
+        a: 'WordPress sa hodí, keď obsah upravuje viac ľudí a potrebujete hotové rozšírenia. Vlastný kód je vhodný pre menší web, kde chcete maximálnu rýchlosť a minimum údržby. Odporučíme to, čo vám ušetrí viac starostí.',
       },
       {
         q: 'Robíte aj e-shopy?',
@@ -183,7 +183,7 @@ export const services: Service[] = [
     slug: 'ai',
     name: 'AI v praxi',
     short: 'AI zapojená do každodennej práce tak, aby šetrila hodiny.',
-    lead: 'Pomôžem vám nájsť činnosti, kde AI ušetrí najviac času, a zapojím ju priamo do nástrojov, ktoré váš tím používa každý deň.',
+    lead: 'Pomôžeme vám nájsť činnosti, kde AI ušetrí najviac času, a zapojíme ju priamo do nástrojov, ktoré váš tím používa každý deň.',
     when: [
       'AI v tíme skúša každý sám a výsledky sa nedajú porovnať.',
       'Opakovane píšete podobné texty, odpovede alebo reporty.',

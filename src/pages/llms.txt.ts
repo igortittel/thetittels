@@ -12,7 +12,7 @@ export async function GET() {
     '',
     `> ${site.description}`,
     '',
-    `${site.name} je značka Igora Tittela. Služby poskytuje Igor Tittel, marketingový konzultant s dvanásťročnou praxou, najmä malým a stredným firmám na Slovensku. Web je v slovenčine.`,
+    `${site.name} je značka manželov Tittelovcov. Služby vedie Igor Tittel, marketingový konzultant s viac ako dvanásťročnou praxou. Pracujú najmä pre malé a stredné firmy na Slovensku. Web je v slovenčine.`,
     '',
     '## Služby',
     ...services.map((s) => `- [${s.name}](${site.url}/sluzby/${s.slug}/): ${s.short}`),

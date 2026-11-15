@@ -1,5 +1,5 @@
-@import '@fontsource-variable/funnel-display/wght.css';
-@import '@fontsource-variable/funnel-sans/wght.css';
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
 
 :root {
   --paper: #ffffff;
@@ -12,15 +12,15 @@
   --pine: #0b4a30;
   --error: #a3200f;
 
-  --display: 'Funnel Display Variable', 'Funnel Display', sans-serif;
-  --body: 'Funnel Sans Variable', 'Funnel Sans', sans-serif;
+  --display: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  --body: 'Newsreader Variable', 'Newsreader', Georgia, serif;
 
-  --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
-  --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step--1: clamp(0.9375rem, 0.9rem + 0.15vw, 1.0625rem);
+  --step-0: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --step-1: clamp(1.375rem, 1.25rem + 0.6vw, 1.6875rem);
   --step-2: clamp(1.625rem, 1.35rem + 1.3vw, 2.375rem);
   --step-3: clamp(2.125rem, 1.6rem + 2.6vw, 3.75rem);
-  --step-4: clamp(2.75rem, 1.6rem + 5.6vw, 6rem);
+  --step-4: clamp(2.875rem, 1.5rem + 6.2vw, 6rem);
 
   --gutter: clamp(1.25rem, 0.6rem + 3vw, 3rem);
   --section: clamp(5rem, 3rem + 9vw, 11rem);
@@ -46,7 +46,8 @@ body {
   color: var(--ink);
   font-family: var(--body);
   font-size: var(--step-0);
-  line-height: 1.55;
+  line-height: 1.5;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   caret-color: var(--pine);
@@ -67,9 +68,9 @@ h1,
 h2,
 h3 {
   font-family: var(--display);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.02;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   margin: 0;
   text-wrap: balance;
 }
@@ -152,7 +153,8 @@ select {
 }
 
 .mark {
-  background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 78% / 100% 0.42em;
+  font-style: italic;
+  background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 82% / 100% 0.38em;
   padding-inline: 0.06em;
   margin-inline: -0.06em;
 }
@@ -194,7 +196,8 @@ select {
   font-family: var(--display);
   font-weight: 600;
   font-size: var(--step-0);
-  letter-spacing: -0.01em;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -212,6 +215,20 @@ select {
 .btn[aria-disabled='true'] {
   opacity: 0.45;
   cursor: not-allowed;
+}
+.arrow,
+.rows__arrow {
+  display: inline-block;
+  flex: none;
+  width: 1.05em;
+  height: 0.8em;
+  overflow: hidden;
+  text-indent: 3em;
+  white-space: nowrap;
+  background: currentColor;
+  --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 16' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 8h18M13 2l6 6-6 6'/%3E%3C/svg%3E");
+  -webkit-mask: var(--arrow) center / contain no-repeat;
+  mask: var(--arrow) center / contain no-repeat;
 }
 .btn .arrow {
   transition: transform 0.3s var(--ease);
@@ -238,6 +255,9 @@ select {
 }
 
 .textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   font-family: var(--display);
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -383,6 +403,89 @@ select {
   border-radius: 6px;
 }
 
+/* Pohyb. Obsah je viditeľný aj bez JS; triedu .js pridáva skript v hlavičke. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root) {
+  animation: vt-out 0.18s ease-in both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.45s var(--ease) both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+/* Nadpisy sa odkrývajú zhora. Orez je až v animácii, inak by prvok observer nevidel. */
+.js [data-reveal='mask'] {
+  transform: none;
+  transition: none;
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+.js [data-reveal='mask'].is-in {
+  animation: unmask 0.95s var(--ease) both;
+}
+@keyframes unmask {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.35em);
+  }
+  to {
+    clip-path: inset(-0.2em -0.1em -0.3em -0.1em);
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.9s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.75rem);
+  }
+}
+.rise .mark,
+.mark.draw {
+  animation: draw 0.8s var(--ease) both;
+  animation-delay: 0.65s;
+}
+@keyframes draw {
+  from {
+    background-size: 0 0.38em;
+  }
+}
+
+.chip input:checked + span {
+  animation: pop 0.35s var(--ease);
+}
+@keyframes pop {
+  40% {
+    transform: scale(0.94);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -391,6 +494,16 @@ select {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

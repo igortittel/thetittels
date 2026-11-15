@@ -12,8 +12,8 @@ const path = Astro.url.pathname;
     <nav id="nav" class="nav" aria-label="Hlavná navigácia">
       <ul>
         {
-          site.nav.map((item) => (
-            <li>
+          site.nav.map((item, i) => (
+            <li style={`--i:${i}`}>
               <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
                 {item.label}
               </a>
@@ -42,90 +42,119 @@ const path = Astro.url.pathname;
     z-index: 50;
     background: color-mix(in srgb, var(--paper) 88%, transparent);
     backdrop-filter: saturate(1.6) blur(14px);
+    view-transition-name: head;
+    transition: box-shadow 0.3s var(--ease);
+  }
+  .head:global(.is-scrolled) {
+    box-shadow: 0 1px 0 var(--line);
   }
   .head__in {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    min-height: 4.25rem;
+    min-height: 4rem;
   }
   .logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
     font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.04em;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
     text-decoration: none;
   }
   .logo span {
     font-weight: 300;
+    font-style: italic;
   }
-  .nav ul {
-    display: flex;
-    gap: clamp(1rem, 2.4vw, 2.25rem);
-  }
-  .nav a {
+  .menu {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    font-size: var(--step--1);
-    font-weight: 500;
-    text-decoration: none;
-  }
-  .nav a:hover,
-  .nav a[aria-current='page'] {
-    box-shadow: inset 0 -0.5em 0 var(--lime);
-  }
-  .menu {
-    display: none;
-    min-height: 2.75rem;
-    padding: 0 1rem;
+    padding: 0 1.1rem;
     border: 0;
     border-radius: 999px;
     background: var(--mist);
     font-family: var(--display);
     font-weight: 600;
     cursor: pointer;
+    transition:
+      background-color 0.25s var(--ease),
+      color 0.25s var(--ease);
   }
   .menu[aria-expanded='true'] {
     background: var(--ink);
     color: var(--paper);
   }
+  .nav {
+    display: none;
+    position: absolute;
+    inset: 100% 0 auto 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem var(--gutter) 1.5rem;
+  }
+  .nav:global(.is-open) {
+    display: block;
+  }
+  .nav:global(.is-open) li {
+    animation: nav-in 0.5s var(--ease) both;
+    animation-delay: calc(var(--i) * 45ms);
+  }
+  @keyframes nav-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.6rem);
+    }
+  }
+  .nav a {
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    font-family: var(--display);
+    font-size: var(--step-2);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav a[aria-current='page'] {
+    font-style: italic;
+  }
 
-  @media (max-width: 42rem) {
+  @media (min-width: 46rem) {
+    .head__in {
+      min-height: 4.5rem;
+    }
     .menu {
-      display: inline-flex;
-      align-items: center;
+      display: none;
     }
     .nav {
-      display: none;
-      position: absolute;
-      inset: 100% 0 auto 0;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-      padding: 0.5rem var(--gutter) 1.5rem;
-    }
-    .nav.is-open {
       display: block;
+      position: static;
+      padding: 0;
+      border: 0;
+      background: none;
     }
     .nav ul {
-      flex-direction: column;
-      gap: 0;
+      display: flex;
+      gap: clamp(1.25rem, 2.6vw, 2.5rem);
     }
     .nav a {
-      width: 100%;
-      min-height: 3.25rem;
-      font-family: var(--display);
-      font-size: var(--step-2);
-      font-weight: 600;
-      letter-spacing: -0.03em;
+      display: inline-flex;
+      min-height: 2.75rem;
+      font-family: var(--body);
+      font-size: var(--step--1);
+      font-weight: 500;
+      letter-spacing: 0;
+      background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 78% / 0 0.4em;
+      transition: background-size 0.35s var(--ease);
     }
     .nav a:hover,
     .nav a[aria-current='page'] {
-      box-shadow: none;
-      text-decoration: underline;
-      text-decoration-color: var(--lime-deep);
-      text-decoration-thickness: 4px;
+      background-size: 100% 0.4em;
+      font-style: normal;
     }
   }
 </style>

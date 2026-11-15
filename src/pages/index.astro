@@ -17,21 +17,22 @@ const schema = [
 
 <Base title="Marketing, weby a automatizácia bez omáčky" schema={schema}>
   <section class="hero wrap">
-    <h1>Marketing, weby a&nbsp;automatizácia. <span class="mark">Bez omáčky.</span></h1>
-    <p class="lede">
-      Som Igor Tittel. Dvanásť rokov nastavujem kampane, meranie a weby. Čo vám funguje, nechám tak. Čo nie, opravím.
+    <h1 class="rise">Marketing, weby a&nbsp;automatizácia. <span class="mark">Bez omáčky.</span></h1>
+    <p class="lede rise" style="--i:1">
+      Sme The Tittels. Za nami je viac ako dvanásť rokov kampaní, merania a webov. Čo vám funguje, necháme tak. Čo
+      nie, opravíme.
     </p>
-    <div class="hero__mixer">
+    <div class="hero__mixer rise" style="--i:2">
       <Mixer />
     </div>
   </section>
 
   <section class="section wrap" aria-labelledby="h-sluzby">
-    <h2 id="h-sluzby">Osem vecí, ktoré robím.</h2>
+    <h2 id="h-sluzby" data-reveal="mask">Osem vecí, ktoré robíme.</h2>
     <ul class="rows">
       {
-        services.map((s) => (
-          <li>
+        services.map((s, i) => (
+          <li data-reveal style={`--i:${i % 4}`}>
             <a href={`/sluzby/${s.slug}/`}>
               <span class="rows__name">{s.name}</span>
               <span class="rows__short">{s.short}</span>
@@ -44,17 +45,17 @@ const schema = [
   </section>
 
   <section class="section wrap split" aria-labelledby="h-pristup">
-    <h2 id="h-pristup">Tri veci, ktoré odo mňa čakajte.</h2>
+    <h2 id="h-pristup" data-reveal="mask">Tri veci, ktoré od nás čakajte.</h2>
     <dl class="tenets">
-      <div>
-        <dt>Čo funguje, nemením.</dt>
-        <dd>Nový dodávateľ rád začína od nuly, aby bolo vidieť zmenu. Ja najprv zistím, čo zarába, a to nechám bežať.</dd>
+      <div data-reveal>
+        <dt>Čo funguje, nemeníme.</dt>
+        <dd>Nový dodávateľ rád začína od nuly, aby bolo vidieť zmenu. My najprv zistíme, čo zarába, a to necháme bežať.</dd>
       </div>
-      <div>
-        <dt>Hovorím na rovinu.</dt>
-        <dd>Ak sa niečo neoplatí, poviem to hneď. Aj vtedy, keď by som na tom zarobil.</dd>
+      <div data-reveal style="--i:1">
+        <dt>Hovoríme na rovinu.</dt>
+        <dd>Ak sa niečo neoplatí, povieme to hneď. Aj vtedy, keď by sme na tom zarobili.</dd>
       </div>
-      <div>
+      <div data-reveal style="--i:2">
         <dt>Rozhodujú čísla.</dt>
         <dd>Pri každom návrhu si vopred povieme, podľa čoho spoznáme, že zabral.</dd>
       </div>
@@ -63,24 +64,29 @@ const schema = [
 
   <section class="section">
     <div class="band">
-      <div class="wrap">
-        <p class="band__text">
-          Dvanásť rokov som pracoval na projektoch veľkých značiek. Dnes tie isté postupy nastavujem malým a stredným
-          firmám, v rozsahu, ktorý im dáva zmysel.
-        </p>
-        <a class="btn" href="/o-nas/">Kto sú The Tittels <span class="arrow" aria-hidden="true">→</span></a>
-      </div>
+      <figure class="wrap">
+        <blockquote data-reveal>
+          <p>
+            „Dvanásť rokov som pracoval na projektoch veľkých značiek. Dnes tie isté postupy nastavujeme malým a
+            stredným firmám, v rozsahu, ktorý im dáva zmysel.“
+          </p>
+        </blockquote>
+        <figcaption data-reveal style="--i:1">
+          <span>Igor Tittel</span>
+          <a class="btn" href="/o-nas/">Kto sú The Tittels <span class="arrow" aria-hidden="true">→</span></a>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
   {
     posts.length > 0 && (
       <section class="section wrap split" aria-labelledby="h-blog">
-        <h2 id="h-blog">Z blogu.</h2>
+        <h2 id="h-blog" data-reveal="mask">Z blogu.</h2>
         <div>
           <ul class="posts">
-            {posts.map((p) => (
-              <li>
+            {posts.map((p, i) => (
+              <li data-reveal style={`--i:${i}`}>
                 <a href={`/blog/${p.id}/`}>
                   <h3>{p.data.title}</h3>
                 </a>
@@ -100,29 +106,29 @@ const schema = [
 
 <style>
   .hero {
-    padding-top: clamp(3rem, 2rem + 6vw, 7.5rem);
+    padding-top: clamp(2.5rem, 1.5rem + 6vw, 7.5rem);
   }
   .hero h1 {
     max-width: 13ch;
   }
   .hero .lede {
-    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    margin-top: clamp(1.25rem, 3vw, 2.25rem);
   }
   .hero__mixer {
-    margin-top: clamp(3rem, 6vw, 5.5rem);
+    margin-top: clamp(2.5rem, 6vw, 5.5rem);
   }
 
   .rows {
-    margin-top: clamp(2rem, 4vw, 3.5rem);
+    margin-top: clamp(1.75rem, 4vw, 3.5rem);
     border-top: 1.5px solid var(--ink);
   }
   .rows a {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: baseline;
-    gap: 0.5rem 2rem;
-    padding: clamp(1.1rem, 2.2vw, 1.9rem) 0;
+    gap: 0.35rem 1.25rem;
+    padding: 1.15rem 0;
     border-bottom: 1px solid var(--line);
     text-decoration: none;
     isolation: isolate;
@@ -139,17 +145,20 @@ const schema = [
     transition: transform 0.35s var(--ease);
   }
   .rows a:hover::before,
-  .rows a:focus-visible::before {
+  .rows a:focus-visible::before,
+  .rows a:active::before {
     transform: scaleY(1);
   }
   .rows__name {
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 500;
     font-size: var(--step-2);
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .rows__short {
+    grid-column: 1;
+    grid-row: 2;
     color: var(--ink-soft);
     transition: color 0.2s;
   }
@@ -157,7 +166,8 @@ const schema = [
     color: var(--ink);
   }
   .rows__arrow {
-    font-family: var(--display);
+    grid-column: 2;
+    grid-row: 1;
     font-size: var(--step-1);
     transition: transform 0.35s var(--ease);
   }
@@ -167,16 +177,12 @@ const schema = [
 
   .split {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 2rem clamp(2rem, 5vw, 6rem);
+    gap: 2rem;
     align-items: start;
-  }
-  .split h2 {
-    max-width: 11ch;
   }
 
   .tenets > div {
-    padding-block: 1.75rem;
+    padding-block: 1.6rem;
     border-bottom: 1px solid var(--line);
   }
   .tenets > div:first-child {
@@ -184,36 +190,51 @@ const schema = [
   }
   .tenets dt {
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 500;
     font-size: var(--step-2);
     line-height: 1.08;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .tenets dd {
-    margin: 0.7rem 0 0;
+    margin: 0.6rem 0 0;
     color: var(--ink-soft);
     max-width: 46ch;
   }
 
   .band {
     background: var(--mist);
-    padding-block: clamp(4rem, 9vw, 9rem);
+    padding-block: clamp(3.5rem, 9vw, 9rem);
   }
-  .band__text {
+  figure,
+  blockquote {
+    margin-block: 0;
+  }
+  blockquote {
+    margin-inline: 0;
+  }
+  blockquote p {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 400;
+    font-style: italic;
     font-size: var(--step-3);
-    line-height: 1.1;
-    letter-spacing: -0.03em;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
     max-width: 24ch;
     text-wrap: balance;
   }
-  .band .btn {
-    margin-top: 2.5rem;
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    margin-top: 2.25rem;
+  }
+  figcaption span {
+    font-weight: 600;
   }
 
   .posts li {
-    padding-block: 1.75rem;
+    padding-block: 1.6rem;
     border-bottom: 1px solid var(--line);
   }
   .posts li:first-child {
@@ -231,7 +252,7 @@ const schema = [
   .posts h3 {
     font-size: var(--step-2);
     line-height: 1.1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .posts p {
     margin-top: 0.6rem;
@@ -248,23 +269,25 @@ const schema = [
     margin-top: 1.75rem;
   }
 
-  @media (max-width: 56rem) {
-    .split {
-      grid-template-columns: 1fr;
-    }
-    .split h2 {
-      max-width: none;
-    }
+  @media (min-width: 56rem) {
     .rows a {
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) auto;
+      gap: 0.5rem 2rem;
+      padding-block: clamp(1.4rem, 2.2vw, 1.9rem);
     }
     .rows__short {
-      grid-column: 1;
-      grid-row: 2;
+      grid-column: 2;
+      grid-row: 1;
     }
     .rows__arrow {
-      grid-row: 1;
-      grid-column: 2;
+      grid-column: 3;
+    }
+    .split {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 2rem clamp(2rem, 5vw, 6rem);
+    }
+    .split h2 {
+      max-width: 11ch;
     }
   }
 </style>
