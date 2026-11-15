@@ -1,0 +1,107 @@
+---
+import { site } from '../data/site';
+import { services } from '../data/services';
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__big">
+      Napíšte, čo riešite.<br />
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
+    <div class="foot__cols">
+      <nav aria-label="Služby">
+        <h2>Služby</h2>
+        <ul>
+          {services.map((s) => <li><a href={`/sluzby/${s.slug}/`}>{s.name}</a></li>)}
+        </ul>
+      </nav>
+      <nav aria-label="Web">
+        <h2>Web</h2>
+        <ul>
+          {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          <li><a href="/ochrana-sukromia/">Ochrana súkromia</a></li>
+        </ul>
+      </nav>
+      <p class="foot__sig">
+        <a class="logo" href="/"><span>{site.wordmark[0]}</span>{site.wordmark[1]}</a>
+        © {year} {site.name}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: clamp(4rem, 9vw, 8rem) 2.5rem;
+  }
+  .foot ::selection {
+    background: var(--lime);
+    color: var(--ink);
+  }
+  .foot :focus-visible {
+    outline-color: var(--lime);
+  }
+  .foot__big {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--step-3);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .foot__big a {
+    color: var(--lime);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .foot__big a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+  }
+  .foot__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 2.5rem;
+    margin-top: clamp(3.5rem, 8vw, 7rem);
+    padding-top: 2.5rem;
+    border-top: 1px solid #2a332d;
+  }
+  h2 {
+    font-family: var(--body);
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0;
+    color: #a9b5ad;
+    margin-bottom: 0.9rem;
+  }
+  li a {
+    display: inline-flex;
+    min-height: 2.25rem;
+    align-items: center;
+    text-decoration: none;
+  }
+  li a:hover {
+    color: var(--lime);
+  }
+  .foot__sig {
+    display: grid;
+    align-content: end;
+    gap: 0.5rem;
+    font-size: var(--step--1);
+    color: #a9b5ad;
+  }
+  .logo {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+    color: var(--paper);
+  }
+  .logo span {
+    font-weight: 300;
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+
+const posts = (await getCollection('blog', (p) => !p.data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const fmt = new Intl.DateTimeFormat('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title="Blog" description="Praktické články o kampaniach, meraní, automatizácii, weboch a AI. Bez teórie, ktorú nevyužijete.">
+  <PageHead title="Blog" lede="Poznámky z praxe. Píšem ich tak, aby ste podľa nich vedeli niečo urobiť." />
+  <section class="section wrap">
+    <ul class="posts">
+      {
+        posts.map((p) => (
+          <li>
+            <time datetime={p.data.date.toISOString()}>{fmt.format(p.data.date)}</time>
+            <div>
+              <h2><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
+              <p>{p.data.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .posts {
+    border-top: 1.5px solid var(--ink);
+  }
+  .posts li {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    gap: 0.5rem 2rem;
+    padding-block: clamp(1.75rem, 3.5vw, 3rem);
+    border-bottom: 1px solid var(--line);
+  }
+  time {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    padding-top: 0.5em;
+  }
+  h2 {
+    font-size: var(--step-2);
+    line-height: 1.08;
+    max-width: 24ch;
+  }
+  h2 a {
+    text-decoration: none;
+  }
+  h2 a:hover {
+    box-shadow: inset 0 -0.4em 0 var(--lime);
+  }
+  .posts p {
+    margin-top: 0.75rem;
+    color: var(--ink-soft);
+    max-width: 56ch;
+  }
+  @media (max-width: 48rem) {
+    .posts li {
+      grid-template-columns: 1fr;
+    }
+    time {
+      padding-top: 0;
+    }
+  }
+</style>

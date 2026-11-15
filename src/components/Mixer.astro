@@ -1,0 +1,190 @@
+---
+import { problems } from '../data/mixer';
+import { services } from '../data/services';
+const names = Object.fromEntries(services.map((s) => [s.slug, s.name]));
+---
+
+<form class="mixer" action="/mixer/" method="get" data-mixer>
+  <fieldset class="mixer__in">
+    <legend>Označte, čo u vás práve platí.</legend>
+    <div class="chips">
+      {
+        problems.map((p) => (
+          <label class="chip">
+            <input type="checkbox" name="p" value={p.id} />
+            <span>{p.label}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div class="mixer__out" aria-live="polite">
+    <div data-empty>
+      <p class="mixer__idle">Vyberte aspoň jednu vec a hneď uvidíte, čím vám viem byť.</p>
+    </div>
+    <div data-result hidden>
+      <p class="mixer__pre">Viem byť váš</p>
+      <p class="mixer__role" data-role></p>
+      <p class="mixer__text" data-text></p>
+      <ul class="mixer__svc" data-services></ul>
+    </div>
+    <button class="btn btn--lime" type="submit">
+      Pokračovať, zaberie to dve minúty <span class="arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+  <script type="application/json" data-names set:html={JSON.stringify(names)} />
+</form>
+
+<script>
+  import { recommend } from '../scripts/recommend';
+
+  document.querySelectorAll<HTMLFormElement>('[data-mixer]').forEach((form) => {
+    const names = JSON.parse(form.querySelector('[data-names]')!.textContent || '{}');
+    const empty = form.querySelector<HTMLElement>('[data-empty]')!;
+    const result = form.querySelector<HTMLElement>('[data-result]')!;
+    const role = form.querySelector<HTMLElement>('[data-role]')!;
+    const text = form.querySelector<HTMLElement>('[data-text]')!;
+    const list = form.querySelector<HTMLElement>('[data-services]')!;
+    let last = '';
+
+    const update = () => {
+      const ids = [...form.querySelectorAll<HTMLInputElement>('input[name="p"]:checked')].map((i) => i.value);
+      const rec = recommend(ids);
+      empty.hidden = !!rec;
+      result.hidden = !rec;
+      if (!rec) {
+        last = '';
+        return;
+      }
+      if (rec.role.id !== last) {
+        role.textContent = rec.role.title;
+        text.textContent = rec.role.text;
+        role.classList.remove('is-in');
+        void role.offsetWidth;
+        role.classList.add('is-in');
+        last = rec.role.id;
+      }
+      list.replaceChildren(
+        ...rec.services.map((slug) => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `/sluzby/${slug}/`;
+          a.textContent = names[slug] ?? slug;
+          li.append(a);
+          return li;
+        }),
+      );
+    };
+
+    form.addEventListener('change', update);
+    update();
+  });
+</script>
+
+<style>
+  .mixer {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: stretch;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  legend {
+    padding: 0;
+    margin-bottom: 1.25rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+  }
+  .mixer__out {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    min-height: 22rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: 16px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .mixer__out :global(:focus-visible) {
+    outline-color: var(--lime);
+  }
+  .mixer__idle {
+    font-family: var(--display);
+    font-size: var(--step-2);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: #a9b5ad;
+    text-wrap: balance;
+  }
+  .mixer__pre {
+    color: #a9b5ad;
+  }
+  .mixer__role {
+    margin-top: 0.25rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--step-3);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--lime);
+    text-wrap: balance;
+  }
+  .mixer__role:global(.is-in) {
+    animation: role-in 0.7s var(--ease) both;
+  }
+  @keyframes role-in {
+    from {
+      clip-path: inset(0 100% 0 0);
+      filter: blur(8px);
+      transform: translateX(-0.25em);
+    }
+    to {
+      clip-path: inset(0 -5% 0 0);
+      filter: blur(0);
+      transform: none;
+    }
+  }
+  .mixer__text {
+    margin-top: 1rem;
+    max-width: 32ch;
+  }
+  .mixer__svc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.1rem;
+    margin-top: 1.25rem;
+    font-size: var(--step--1);
+  }
+  .mixer__svc :global(a) {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: center;
+    color: #d5ddd7;
+  }
+  .mixer__svc :global(a:hover) {
+    color: var(--lime);
+  }
+  .btn {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  @media (max-width: 56rem) {
+    .mixer {
+      grid-template-columns: 1fr;
+    }
+    .mixer__out {
+      min-height: 0;
+    }
+  }
+</style>

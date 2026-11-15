@@ -1,0 +1,330 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { problems, steps } from '../data/mixer';
+import { services } from '../data/services';
+import { site } from '../data/site';
+
+const names = Object.fromEntries(services.map((s) => [s.slug, s.name]));
+const groups = (keys: (keyof typeof steps)[]) => keys.map((key) => ({ key, ...steps[key] }));
+const fieldName: Record<string, string> = { company: 'business' };
+---
+
+<Base
+  title="Mixér: zistite, čím vám viem byť"
+  description="Štyri krátke kroky. Označíte, čo riešite, a dostanete odporúčanie, s čím vám viem pomôcť a v akej role."
+>
+  <PageHead
+    title="Mixér"
+    lede="Štyri krátke kroky. Na konci uvidíte, v akej role vám viem pomôcť, a ja dostanem dosť informácií na to, aby som sa ozval s konkrétnym návrhom."
+  />
+
+  <section class="section wrap">
+    <form class="wiz" data-lead="mixer" data-email={site.email} data-done="#hotovo">
+      <p class="wiz__progress" data-progress aria-live="polite"></p>
+
+      <div class="wiz__step" data-step>
+        <fieldset>
+          <legend>Čo u vás práve platí</legend>
+          <p class="hint">Označte všetko, čo sedí.</p>
+          <div class="chips">
+            {
+              problems.map((p) => (
+                <label class="chip">
+                  <input type="checkbox" name="p" value={p.id} data-label={p.label} />
+                  <span>{p.label}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+      </div>
+
+      {
+        [groups(['company', 'team', 'marketing']), groups(['timing', 'form', 'budget'])].map((set) => (
+          <div class="wiz__step" data-step>
+            {set.map((g) => (
+              <fieldset>
+                <legend>{g.legend}</legend>
+                <div class="chips">
+                  {g.options.map((o) => (
+                    <label class="chip">
+                      <input type="radio" name={fieldName[g.key] ?? g.key} value={o} />
+                      <span>{o}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ))}
+          </div>
+        ))
+      }
+
+      <div class="wiz__step" data-step>
+        <div class="wiz__result" data-result hidden>
+          <p class="wiz__pre">Podľa odpovedí vám viem byť</p>
+          <p class="wiz__role" data-role></p>
+          <p data-text></p>
+          <ul data-services></ul>
+        </div>
+        <fieldset class="wiz__contact">
+          <legend>Kam sa mám ozvať</legend>
+          <div class="grid">
+            <div class="field">
+              <label for="m-name">Meno</label>
+              <input id="m-name" name="name" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="m-email">E-mail</label>
+              <input id="m-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="m-company">Firma alebo web</label>
+              <input id="m-company" name="company" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label for="m-phone">Telefón <span class="hint">nepovinné</span></label>
+              <input id="m-phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+            <div class="field wide">
+              <label for="m-message">Chcete niečo dodať? <span class="hint">nepovinné</span></label>
+              <textarea id="m-message" name="message"></textarea>
+            </div>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label>Web <input name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <p class="fineprint">
+            Údaje použijem len na odpoveď na váš dopyt. Podrobnosti sú v <a href="/ochrana-sukromia/">ochrane súkromia</a>.
+          </p>
+        </fieldset>
+      </div>
+
+      <p class="wiz__msg" data-status role="status"></p>
+      <div class="wiz__nav">
+        <button class="btn btn--ghost" type="button" data-back hidden>Späť</button>
+        <button class="btn" type="button" data-next hidden>Ďalej <span class="arrow" aria-hidden="true">→</span></button>
+        <button class="btn" type="submit" data-submit>Odoslať <span class="arrow" aria-hidden="true">→</span></button>
+      </div>
+      <script type="application/json" data-names set:html={JSON.stringify(names)} />
+    </form>
+
+    <div id="hotovo" class="done" tabindex="-1" hidden>
+      <h2>Ďakujem, mám to.</h2>
+      <p class="lede">Ozvem sa do dvoch pracovných dní s konkrétnym návrhom ďalšieho kroku.</p>
+      <p><a class="textlink" href="/blog/">Zatiaľ si môžete prečítať blog</a></p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { recommend } from '../scripts/recommend';
+  import { wireLeadForm } from '../scripts/lead';
+
+  const form = document.querySelector<HTMLFormElement>('.wiz')!;
+  const stepEls = [...form.querySelectorAll<HTMLElement>('[data-step]')];
+  const names = JSON.parse(form.querySelector('[data-names]')!.textContent || '{}');
+  const progress = form.querySelector<HTMLElement>('[data-progress]')!;
+  const status = form.querySelector<HTMLElement>('[data-status]')!;
+  const back = form.querySelector<HTMLButtonElement>('[data-back]')!;
+  const next = form.querySelector<HTMLButtonElement>('[data-next]')!;
+  const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+  const result = form.querySelector<HTMLElement>('[data-result]')!;
+  let current = 0;
+
+  const picked = () => [...form.querySelectorAll<HTMLInputElement>('input[name="p"]:checked')];
+  const rec = () => recommend(picked().map((i) => i.value));
+
+  // Predvyplnenie z úvodnej stránky (?p=k1&p=t1).
+  const preset = new URLSearchParams(location.search).getAll('p');
+  form.querySelectorAll<HTMLInputElement>('input[name="p"]').forEach((i) => {
+    if (preset.includes(i.value)) i.checked = true;
+  });
+
+  const showResult = () => {
+    const r = rec();
+    result.hidden = !r;
+    if (!r) return;
+    result.querySelector('[data-role]')!.textContent = r.role.title;
+    result.querySelector('[data-text]')!.textContent = r.role.text;
+    result.querySelector('[data-services]')!.replaceChildren(
+      ...r.services.map((slug) => {
+        const li = document.createElement('li');
+        li.textContent = names[slug] ?? slug;
+        return li;
+      }),
+    );
+  };
+
+  const valid = () => {
+    const step = stepEls[current];
+    if (current === 0) return picked().length > 0 || 'Označte aspoň jednu vec.';
+    const groups = new Set([...step.querySelectorAll<HTMLInputElement>('input[type="radio"]')].map((i) => i.name));
+    for (const name of groups) {
+      if (!form.querySelector(`input[name="${name}"]:checked`)) return 'Vyberte jednu možnosť pri každej otázke.';
+    }
+    return true;
+  };
+
+  const go = (to: number, focus = true) => {
+    current = Math.max(0, Math.min(stepEls.length - 1, to));
+    stepEls.forEach((el, i) => (el.hidden = i !== current));
+    const last = current === stepEls.length - 1;
+    back.hidden = current === 0;
+    next.hidden = last;
+    submit.hidden = !last;
+    status.textContent = '';
+    status.classList.remove('error');
+    progress.textContent = `Krok ${current + 1} zo ${stepEls.length}`;
+    if (last) showResult();
+    if (focus) {
+      const target = stepEls[current].querySelector<HTMLElement>('legend, [data-result]');
+      form.scrollIntoView({ block: 'start' });
+      target?.setAttribute('tabindex', '-1');
+      target?.focus({ preventScroll: true });
+    }
+  };
+
+  next.addEventListener('click', () => {
+    const ok = valid();
+    if (ok !== true) {
+      status.textContent = ok;
+      status.classList.add('error');
+      return;
+    }
+    go(current + 1);
+  });
+  back.addEventListener('click', () => go(current - 1));
+  form.addEventListener('change', () => {
+    if (status.classList.contains('error') && valid() === true) {
+      status.textContent = '';
+      status.classList.remove('error');
+    }
+  });
+
+  form.classList.add('is-wizard');
+  go(preset.length ? 1 : 0, false);
+
+  wireLeadForm(form, () => ({
+    problems: picked().map((i) => i.dataset.label),
+    role: rec()?.role.title ?? '',
+  }));
+</script>
+
+<style>
+  .wiz {
+    max-width: 58rem;
+  }
+  .wiz__progress {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+    min-height: 1.5em;
+    font-variant-numeric: tabular-nums;
+  }
+  .wiz__step + .wiz__step {
+    margin-top: 3rem;
+  }
+  .wiz:global(.is-wizard) .wiz__step + .wiz__step {
+    margin-top: 0;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  fieldset + fieldset {
+    margin-top: 2.75rem;
+  }
+  legend {
+    padding: 0;
+    margin-bottom: 1rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--step-2);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  legend:focus {
+    outline: none;
+  }
+  .hint {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    letter-spacing: 0;
+  }
+  p.hint {
+    margin: -0.5rem 0 1.25rem;
+  }
+  .wiz__result {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: 16px;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: 3rem;
+  }
+  .wiz__result:focus {
+    outline: none;
+  }
+  .wiz__pre {
+    color: #a9b5ad;
+  }
+  .wiz__role {
+    margin: 0.25rem 0 1rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--step-3);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--lime);
+    text-wrap: balance;
+  }
+  .wiz__result [data-text] {
+    max-width: 44ch;
+  }
+  .wiz__result ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.25rem;
+    margin-top: 1.25rem;
+    font-size: var(--step--1);
+    color: #d5ddd7;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .wide {
+    grid-column: 1 / -1;
+  }
+  .fineprint {
+    margin-top: 1.25rem;
+  }
+  .wiz__msg {
+    min-height: 1.6em;
+    margin-top: 1.5rem;
+  }
+  .wiz__msg:global(.error) {
+    color: var(--error);
+  }
+  .wiz__nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .done:focus {
+    outline: none;
+  }
+  .done .lede {
+    margin-block: 1.25rem 1.75rem;
+  }
+  @media (max-width: 40rem) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

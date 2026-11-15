@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Kontakt" description="Napíšte, čo riešite. Odpoviem do dvoch pracovných dní.">
+  <PageHead title="Napíšte, čo riešite." lede="Stačí pár viet. Odpoviem do dvoch pracovných dní, aj keby odpoveď bola, že vám pomôcť neviem." />
+
+  <section class="section wrap cols">
+    <div>
+      <form class="form" data-lead="kontakt" data-email={site.email} data-done="#hotovo">
+        <div class="field">
+          <label for="c-name">Meno</label>
+          <input id="c-name" name="name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="c-email">E-mail</label>
+          <input id="c-email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="c-company">Firma alebo web <span class="hint">nepovinné</span></label>
+          <input id="c-company" name="company" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="c-message">Čo riešite</label>
+          <textarea id="c-message" name="message" required></textarea>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label>Web <input name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <p class="fineprint">
+          Údaje použijem len na odpoveď na vašu správu. Podrobnosti sú v <a href="/ochrana-sukromia/">ochrane súkromia</a>.
+        </p>
+        <p data-status role="status"></p>
+        <button class="btn" type="submit">Odoslať <span class="arrow" aria-hidden="true">→</span></button>
+      </form>
+      <div id="hotovo" class="done" tabindex="-1" hidden>
+        <h2>Ďakujem, správa prišla.</h2>
+        <p class="lede">Ozvem sa do dvoch pracovných dní.</p>
+      </div>
+    </div>
+
+    <aside>
+      <h2>Radšej e-mailom</h2>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <h2>Chcete konkrétnejšiu odpoveď</h2>
+      <p>
+        Prejdite <a href="/mixer/">mixérom</a>. Zaberie dve minúty a ja budem hneď vedieť, s čím prichádzate.
+      </p>
+    </aside>
+  </section>
+</Base>
+
+<script>
+  import { wireLeadForm } from '../scripts/lead';
+  const form = document.querySelector<HTMLFormElement>('[data-lead="kontakt"]');
+  if (form) wireLeadForm(form);
+</script>
+
+<style>
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 3rem clamp(2rem, 6vw, 7rem);
+    align-items: start;
+  }
+  .form {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+  [data-status]:empty {
+    display: none;
+  }
+  [data-status]:global(.error) {
+    color: var(--error);
+  }
+  aside h2 {
+    font-size: var(--step-1);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  aside p {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+  aside p + h2 {
+    margin-top: 2.5rem;
+  }
+  aside a {
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .done:focus {
+    outline: none;
+  }
+  .done .lede {
+    margin-top: 1.25rem;
+  }
+  @media (max-width: 56rem) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

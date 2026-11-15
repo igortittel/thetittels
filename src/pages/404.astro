@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+
+<Base title="Stránka sa nenašla" noindex>
+  <PageHead title="Táto stránka tu nie je." lede="Odkaz je starý alebo sa do adresy dostal preklep.">
+    <p class="go">
+      <a class="btn" href="/">Na úvod <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn--ghost" href="/sluzby/">Služby</a>
+    </p>
+  </PageHead>
+  <div class="section"></div>
+</Base>
+
+<style>
+  .go {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+</style>

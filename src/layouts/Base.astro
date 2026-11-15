@@ -1,0 +1,69 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Consent from '../components/Consent.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description = site.description, image = '/og.png', type = 'website', noindex = false, schema = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+const gtm = import.meta.env.PUBLIC_GTM_ID;
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${site.url}/#org`,
+  name: site.name,
+  url: site.url,
+  description: site.description,
+  email: site.email,
+  areaServed: { '@type': 'Country', name: 'Slovensko' },
+  founder: { '@type': 'Person', '@id': `${site.url}/#igor`, name: site.person },
+};
+const graph = [org, ...schema];
+---
+
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} blog`} href="/rss.xml" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="sk_SK" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, site.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {graph.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+    {gtm && <Consent id={gtm} part="head" />}
+  </head>
+  <body>
+    <a class="skip" href="#obsah">Preskočiť na obsah</a>
+    <Header />
+    <main id="obsah">
+      <slot />
+    </main>
+    <Footer />
+    {gtm && <Consent id={gtm} part="body" />}
+  </body>
+</html>

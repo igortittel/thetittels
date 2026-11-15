@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: services.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.name,
+      url: `${site.url}/sluzby/${s.slug}/`,
+    })),
+  },
+];
+---
+
+<Base
+  title="Služby"
+  description="Platené kampane, tracking, marketingová automatizácia, omnichannel, automatizácia procesov, weby, brand a AI. Čo ktorá služba obsahuje a kedy dáva zmysel."
+  schema={schema}
+>
+  <PageHead
+    title="Služby"
+    lede="Každú z nich si viete objednať samostatne. Najviac však prinesú, keď na seba nadväzujú: kampane potrebujú meranie, automatizácia potrebuje dáta a web potrebuje oboje."
+  />
+  <section class="section wrap">
+    <ul class="list">
+      {
+        services.map((s) => (
+          <li>
+            <h2><a href={`/sluzby/${s.slug}/`}>{s.name}</a></h2>
+            <div>
+              <p>{s.lead}</p>
+              <p class="more"><a class="textlink" href={`/sluzby/${s.slug}/`}>Čo presne dostanete<span class="visually-hidden">: {s.name}</span></a></p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="cta">
+      <p>Neviete, ktorá z nich je pre vás? Mixér vám to povie za dve minúty.</p>
+      <a class="btn" href="/mixer/">Otvoriť mixér <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .list {
+    border-top: 1.5px solid var(--ink);
+  }
+  .list li {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 1rem clamp(2rem, 5vw, 6rem);
+    padding-block: clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  h2 {
+    font-size: var(--step-2);
+    line-height: 1.05;
+  }
+  h2 a {
+    text-decoration: none;
+  }
+  h2 a:hover {
+    box-shadow: inset 0 -0.4em 0 var(--lime);
+  }
+  .list p {
+    max-width: 58ch;
+    color: var(--ink-soft);
+  }
+  .list .more {
+    margin-top: 1rem;
+    color: var(--ink);
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  .cta p {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--step-2);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  @media (max-width: 56rem) {
+    .list li {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

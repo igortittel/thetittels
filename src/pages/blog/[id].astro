@@ -1,0 +1,88 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (p) => !p.data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const fmt = new Intl.DateTimeFormat('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' });
+const url = `${site.url}/blog/${post.id}/`;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.date.toISOString(),
+    dateModified: (post.data.updated ?? post.data.date).toISOString(),
+    inLanguage: 'sk',
+    mainEntityOfPage: url,
+    author: { '@type': 'Person', '@id': `${site.url}/#igor`, name: site.person, url: `${site.url}/o-nas/` },
+    publisher: { '@id': `${site.url}/#org` },
+  },
+];
+---
+
+<Base title={post.data.title} description={post.data.description} type="article" schema={schema}>
+  <article class="wrap post">
+    <header>
+      <p class="back"><a href="/blog/">← Blog</a></p>
+      <h1>{post.data.title}</h1>
+      <p class="meta">
+        {site.person}, <time datetime={post.data.date.toISOString()}>{fmt.format(post.data.date)}</time>
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    <footer>
+      <p>Riešite niečo podobné? <a class="textlink" href="/kontakt/">Napíšte mi</a>.</p>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .post {
+    padding-block: clamp(2.5rem, 2rem + 4vw, 5.5rem) var(--section);
+  }
+  h1 {
+    font-size: var(--step-3);
+    line-height: 1.04;
+    max-width: 20ch;
+  }
+  .back {
+    font-size: var(--step--1);
+    margin-bottom: 1.25rem;
+  }
+  .back a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ink-soft);
+  }
+  .back a:hover {
+    color: var(--ink);
+  }
+  .meta {
+    margin-top: 1.25rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .prose {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+  footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    max-width: 68ch;
+    font-size: var(--step-1);
+  }
+</style>

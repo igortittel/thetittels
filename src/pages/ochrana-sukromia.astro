@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+
+<!-- NÁVRH: pred spustením doplniť údaje prevádzkovateľa a nechať skontrolovať. -->
+<Base title="Ochrana súkromia" noindex>
+  <PageHead title="Ochrana súkromia" />
+  <section class="section wrap">
+    <div class="prose">
+      <p><strong>Pracovný návrh.</strong> Pred spustením webu treba doplniť údaje prevádzkovateľa a text skontrolovať.</p>
+      <h2>Kto údaje spracúva</h2>
+      <p>[Obchodné meno, sídlo, IČO]. Kontakt: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <h2>Aké údaje a prečo</h2>
+      <p>
+        Keď odošlete kontaktný formulár alebo mixér, spracúvam meno, e-mail, prípadne telefón, názov firmy a obsah
+        správy. Používam ich výlučne na to, aby som vám odpovedal a pripravil ponuku. Právnym základom sú kroky pred
+        uzavretím zmluvy na vašu žiadosť.
+      </p>
+      <h2>Ako dlho</h2>
+      <p>Ak k spolupráci nedôjde, údaje z dopytu vymažem najneskôr do [12 mesiacov].</p>
+      <h2>Kto má k údajom prístup</h2>
+      <p>
+        Dopyty sa doručujú e-mailom cez službu Brevo a web beží na platforme Vercel. Obe spoločnosti vystupujú ako
+        sprostredkovatelia.
+      </p>
+      <h2>Meranie návštevnosti</h2>
+      <p>
+        Analytické a marketingové nástroje sa spúšťajú až po vašom súhlase v cookie lište. Súhlas môžete kedykoľvek
+        zmeniť vymazaním údajov stránky v prehliadači.
+      </p>
+      <h2>Vaše práva</h2>
+      <p>
+        Máte právo na prístup k údajom, ich opravu, vymazanie, obmedzenie spracúvania a právo namietať. Stačí napísať
+        na uvedený e-mail. Sťažnosť môžete podať na Úrad na ochranu osobných údajov SR.
+      </p>
+    </div>
+  </section>
+</Base>

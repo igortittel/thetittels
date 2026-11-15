@@ -1,0 +1,38 @@
+# thetittels.sk
+
+Web značky The Tittels. Statický web v [Astro](https://astro.build), nasadenie na Vercel.
+
+## Spustenie
+
+```sh
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # produkčný build
+```
+
+## Kde čo meniť
+
+| Čo | Súbor |
+| --- | --- |
+| Kontaktný e-mail, navigácia, popis webu | `src/data/site.ts` |
+| Služby (texty, FAQ) | `src/data/services.ts` |
+| Mixér (problémy, roly, otázky) | `src/data/mixer.ts` |
+| Články | `src/content/blog/*.md` |
+| Farby, písmo, rozostupy | `src/styles/global.css` |
+
+Nový článok je nový `.md` súbor v `src/content/blog/` s hlavičkou `title`, `description`, `date`.
+S `draft: true` sa nezverejní.
+
+## Premenné prostredia (Vercel)
+
+Vzor je v `.env.example`.
+
+- `BREVO_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`: odosielanie dopytov z formulárov e-mailom cez Brevo.
+  Bez nich formuláre vrátia chybu a návštevníka odkážu na e-mail.
+- `PUBLIC_GTM_ID`: Google Tag Manager. Keď je nastavené, načíta sa GTM s Consent Mode v2 a cookie lišta.
+
+## Pred spustením
+
+- Doplniť skutočný e-mail v `src/data/site.ts`.
+- Doplniť údaje prevádzkovateľa v `src/pages/ochrana-sukromia.astro` (stránka je zatiaľ návrh).
+- Skontrolovať texty, najmä `O nás` a dva úvodné články.

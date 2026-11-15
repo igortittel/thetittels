@@ -1,0 +1,98 @@
+---
+// GTM s Consent Mode v2. Renderuje sa len vtedy, keď je nastavené PUBLIC_GTM_ID.
+interface Props {
+  id: string;
+  part: 'head' | 'body';
+}
+const { id, part } = Astro.props;
+---
+
+{
+  part === 'head' && (
+    <script is:inline define:vars={{ id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      var saved = null;
+      try { saved = localStorage.getItem('tt-consent'); } catch (e) {}
+      var granted = saved === 'granted' ? 'granted' : 'denied';
+      gtag('consent', 'default', {
+        ad_storage: granted, ad_user_data: granted, ad_personalization: granted, analytics_storage: granted,
+      });
+      (function (w, d, s, l, i) {
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', id);
+    </script>
+  )
+}
+
+{
+  part === 'body' && (
+    <div class="consent" role="region" aria-label="Súhlas s meraním" hidden>
+      <p>
+        Meriam návštevnosť, aby som vedel, čo na webe funguje. Bez vášho súhlasu sa nič neukladá.
+        <a href="/ochrana-sukromia/">Viac o súkromí</a>
+      </p>
+      <div class="consent__btns">
+        <button class="btn btn--ghost" type="button" data-consent="denied">Odmietnuť</button>
+        <button class="btn" type="button" data-consent="granted">Súhlasím</button>
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        var box = document.querySelector('.consent');
+        var saved = null;
+        try { saved = localStorage.getItem('tt-consent'); } catch (e) {}
+        if (!saved) box.hidden = false;
+        box.addEventListener('click', function (e) {
+          var v = e.target && e.target.getAttribute('data-consent');
+          if (!v) return;
+          try { localStorage.setItem('tt-consent', v); } catch (err) {}
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('consent', 'update', {
+            ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v,
+          });
+          box.hidden = true;
+        });
+      })();
+    </script>
+  )
+}
+
+<style>
+  .consent {
+    position: fixed;
+    inset: auto 1rem 1rem 1rem;
+    z-index: 80;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    max-width: 52rem;
+    margin-inline: auto;
+    padding: 1.25rem 1.5rem;
+    border-radius: 16px;
+    background: var(--paper);
+    box-shadow: 0 18px 50px -12px rgb(13 18 15 / 0.28);
+    font-size: var(--step--1);
+  }
+  .consent[hidden] {
+    display: none;
+  }
+  .consent p {
+    flex: 1 1 20rem;
+  }
+  .consent__btns {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .consent .btn {
+    min-height: 2.75rem;
+    padding: 0.5rem 1.2rem;
+    font-size: var(--step--1);
+  }
+</style>
