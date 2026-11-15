@@ -4,110 +4,76 @@ import { services } from '../data/services';
 const year = new Date().getFullYear();
 ---
 
-<footer class="foot">
+<footer class="foot inv">
   <div class="wrap">
-    <p class="foot__big" data-reveal>
-      Napíšte, čo riešite.<br />
-      <a href={`mailto:${site.email}`}>{site.email}</a>
-    </p>
+    <p class="foot__big">Napíšte, ktorý diel u vás drhne.</p>
+    <p class="foot__mail"><a href={`mailto:${site.email}`}>{site.email}</a></p>
     <div class="foot__cols">
       <nav aria-label="Služby">
-        <h2>Služby</h2>
+        <h2 class="lab">Služby</h2>
         <ul>
           {services.map((s) => <li><a href={`/sluzby/${s.slug}/`}>{s.name}</a></li>)}
         </ul>
       </nav>
       <nav aria-label="Web">
-        <h2>Web</h2>
+        <h2 class="lab">Web</h2>
         <ul>
           {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          <li><a href="/dopyt/">Dopyt</a></li>
           <li><a href="/ochrana-sukromia/">Ochrana osobných údajov</a></li>
         </ul>
       </nav>
-      <p class="foot__sig">
-        <a class="logo" href="/"><span>{site.wordmark[0]}</span>{site.wordmark[1]}</a>
-        © {year} {site.name}
-      </p>
+      <p class="lab foot__sig">© {year} {site.name}</p>
     </div>
   </div>
 </footer>
 
 <style>
   .foot {
-    background: var(--ink);
-    color: var(--paper);
-    padding-block: clamp(4rem, 9vw, 8rem) 2.5rem;
-  }
-  .foot ::selection {
-    background: var(--lime);
-    color: var(--ink);
+    padding-block: var(--section) 2.5rem;
   }
   .foot :focus-visible {
-    outline-color: var(--lime);
+    outline-color: var(--paper);
   }
   .foot__big {
-    font-family: var(--display);
-    font-weight: 600;
     font-size: var(--step-3);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-weight: 360;
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+    max-width: 14em;
+    text-wrap: balance;
   }
-  .foot__big a {
-    display: inline-block;
-    padding-block: 0.15em;
-    color: var(--lime);
-    text-decoration: none;
+  .foot__mail {
+    margin-top: 1.75rem;
+    font-size: var(--step-1);
+  }
+  .foot__mail a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
     overflow-wrap: anywhere;
-  }
-  .foot__big a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
   }
   .foot__cols {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
     gap: 2.5rem;
-    margin-top: clamp(3.5rem, 8vw, 7rem);
-    padding-top: 2.5rem;
-    border-top: 1px solid #2a332d;
+    margin-top: clamp(3rem, 7vw, 6rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--inv-hair);
   }
   h2 {
-    font-family: var(--body);
-    font-size: var(--step--1);
-    font-weight: 500;
-    letter-spacing: 0;
-    color: #a9b5ad;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.75rem;
   }
   li a {
     display: inline-flex;
-    min-height: 2.75rem;
     align-items: center;
+    min-height: 2.75rem;
     text-decoration: none;
   }
   li a:hover {
-    color: var(--lime);
+    text-decoration: underline;
   }
   .foot__sig {
-    display: grid;
-    align-content: end;
-    gap: 0.5rem;
-    font-size: var(--step--1);
-    color: #a9b5ad;
-  }
-  .logo {
-    font-family: var(--display);
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    font-size: 1.5rem;
-    letter-spacing: -0.02em;
-    text-decoration: none;
-    color: var(--paper);
-  }
-  .logo span {
-    font-weight: 300;
-    font-style: italic;
+    align-self: end;
   }
 </style>

@@ -20,83 +20,35 @@ const schema = [
 
 <Base
   title="Služby"
-  description="Platené kampane, tracking, marketingová automatizácia, omnichannel, automatizácia procesov, weby, brand a AI. Čo ktorá služba obsahuje a kedy dáva zmysel."
+  description="Platené kampane, tracking, marketingová automatizácia, omnichannel, automatizácia procesov, weby, brand a AI. Pri každej službe, čo máte dnes a čo budete mať potom."
   schema={schema}
 >
   <PageHead
-    title="Služby"
-    lede="Každú z nich si viete objednať samostatne. Najviac však prinesú, keď na seba nadväzujú: kampane potrebujú meranie, automatizácia potrebuje dáta a web potrebuje oboje."
+    title="Osem dielov jedného stroja."
+    lede="Každý si viete objednať samostatne. Najviac spravia, keď na seba nadväzujú: kampane potrebujú meranie, automatizácia potrebuje dáta a web potrebuje oboje."
   />
   <section class="section wrap">
-    <ul class="list">
+    <div class="ledger">
+      <div class="ledger__head lab"><span>Služba</span><span>Dnes</span><span>Potom</span></div>
       {
         services.map((s) => (
-          <li data-reveal>
-            <h2><a href={`/sluzby/${s.slug}/`}>{s.name}</a></h2>
-            <div>
-              <p>{s.lead}</p>
-              <p class="more"><a class="textlink" href={`/sluzby/${s.slug}/`}>Čo presne dostanete<span class="visually-hidden">: {s.name}</span></a></p>
-            </div>
-          </li>
+          <a class="ledger__row" href={`/sluzby/${s.slug}/`}>
+            <b>{s.name}</b>
+            <span class="now">{s.today}</span>
+            <span class="then">{s.after}</span>
+          </a>
         ))
       }
-    </ul>
-    <div class="cta" data-reveal>
-      <p>Neviete, ktorá z nich je pre vás? Mixér vám to povie za dve minúty.</p>
-      <a class="btn" href="/mixer/">Otvoriť mixér <span class="arrow" aria-hidden="true">→</span></a>
     </div>
+  </section>
+  <section class="section section--end wrap">
+    <p class="lede">Neviete, ktorý diel je váš? Odpovedzte na štyri krátke otázky a povieme vám, v akej role vám vieme pomôcť.</p>
+    <div class="actions"><a class="btn" href="/dopyt/">Začať</a><a class="textlink" href="/kontakt/">Alebo rovno napísať</a></div>
   </section>
 </Base>
 
 <style>
-  .list {
-    border-top: 1.5px solid var(--ink);
-  }
-  .list li {
-    display: grid;
-    gap: 1rem;
-    padding-block: clamp(2rem, 4vw, 3.5rem);
-    border-bottom: 1px solid var(--line);
-  }
-  h2 {
-    font-size: var(--step-2);
-    line-height: 1.05;
-  }
-  h2 a {
-    text-decoration: none;
-  }
-  h2 a:hover {
-    background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 82% / 100% 0.38em;
-  }
-  .list p {
-    max-width: 58ch;
-    color: var(--ink-soft);
-  }
-  .list .more {
-    margin-top: 1rem;
-    color: var(--ink);
-  }
-  .cta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem 3rem;
-    margin-top: clamp(3rem, 6vw, 5rem);
-  }
-  .cta p {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: var(--step-2);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 22ch;
-    text-wrap: balance;
-  }
-  @media (min-width: 56rem) {
-    .list li {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: 1rem clamp(2rem, 5vw, 6rem);
-    }
+  .actions {
+    margin-top: 2rem;
   }
 </style>

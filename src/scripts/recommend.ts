@@ -1,4 +1,4 @@
-import { problems, roles, wideRoles, type Role } from '../data/mixer';
+import { problems, roles, wideRoles, type Role } from '../data/assessment';
 
 export type Recommendation = { role: Role; services: string[] };
 

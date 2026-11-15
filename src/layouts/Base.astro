@@ -38,7 +38,6 @@ const graph = [org, ...schema];
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -46,7 +45,7 @@ const graph = [org, ...schema];
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} blog`} href="/rss.xml" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#f0f0f0" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content="sk_SK" />
     <meta property="og:type" content={type} />
@@ -67,23 +66,7 @@ const graph = [org, ...schema];
     <Footer />
     {gtm && <Consent id={gtm} part="body" />}
     <script>
-      // Odhalenie prvkov pri skrolovaní a tieň hlavičky.
-      const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
-      if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (!e.isIntersecting) continue;
-              e.target.classList.add('is-in');
-              io.unobserve(e.target);
-            }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 },
-        );
-        items.forEach((el) => io.observe(el));
-      } else {
-        items.forEach((el) => el.classList.add('is-in'));
-      }
+      // Linka pod hlavičkou po odskrolovaní.
       const head = document.querySelector('.head');
       const onScroll = () => head?.classList.toggle('is-scrolled', window.scrollY > 8);
       addEventListener('scroll', onScroll, { passive: true });

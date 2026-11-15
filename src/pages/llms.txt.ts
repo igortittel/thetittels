@@ -21,7 +21,7 @@ export async function GET() {
     ...posts.map((p) => `- [${p.data.title}](${site.url}/blog/${p.id}/): ${p.data.description}`),
     '',
     '## Kontakt',
-    `- [Mixér](${site.url}/mixer/): krátky dotazník, ktorý odporučí vhodnú službu`,
+    `- [Dopyt](${site.url}/dopyt/): štyri krátke otázky, ktoré odporučia vhodnú službu`,
     `- [Kontakt](${site.url}/kontakt/): ${site.email}`,
     '',
   ].join('\n');

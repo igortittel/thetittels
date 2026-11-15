@@ -32,57 +32,50 @@ const schema = [
 <Base title={post.data.title} description={post.data.description} type="article" schema={schema}>
   <article class="wrap post">
     <header>
-      <p class="back"><a href="/blog/">← Blog</a></p>
+      <p class="lab"><a href="/blog/">Blog</a></p>
       <h1>{post.data.title}</h1>
-      <p class="meta">
-        {site.person}, <time datetime={post.data.date.toISOString()}>{fmt.format(post.data.date)}</time>
+      <p class="lab meta">
+        {site.person} · <time datetime={post.data.date.toISOString()}>{fmt.format(post.data.date)}</time>
       </p>
     </header>
     <div class="prose">
       <Content />
     </div>
     <footer>
-      <p>Riešite niečo podobné? <a class="textlink" href="/kontakt/">Napíšte nám</a>.</p>
+      <p>Riešite niečo podobné? <a href="/kontakt/">Napíšte nám</a>.</p>
     </footer>
   </article>
 </Base>
 
 <style>
   .post {
-    padding-block: clamp(2.5rem, 2rem + 4vw, 5.5rem) var(--section);
+    padding-block: clamp(2rem, 1.5rem + 5vw, 6rem) var(--section);
+  }
+  .lab a {
+    display: inline-block;
+    padding-block: 0.9rem;
+    margin-block: -0.9rem;
   }
   h1 {
-    font-size: var(--step-3);
-    line-height: 1.04;
-    max-width: 20ch;
-  }
-  .back {
-    font-size: var(--step--1);
-    margin-bottom: 1.25rem;
-  }
-  .back a {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    text-decoration: none;
-    color: var(--ink-soft);
-  }
-  .back a:hover {
-    color: var(--ink);
+    margin-top: 1rem;
+    max-width: 17em;
   }
   .meta {
-    margin-top: 1.25rem;
-    font-size: var(--step--1);
-    color: var(--ink-soft);
+    margin-top: 1.5rem;
   }
   .prose {
     margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--ink);
+    max-width: none;
+  }
+  .prose > :global(*) {
+    max-width: 68ch;
   }
   footer {
     margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
-    max-width: 68ch;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--ink);
     font-size: var(--step-1);
   }
 </style>

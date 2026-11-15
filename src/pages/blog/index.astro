@@ -10,17 +10,15 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { day: 'numeric', month: 'long', ye
 ---
 
 <Base title="Blog" description="Praktické články o kampaniach, meraní, automatizácii, weboch a AI. Bez teórie, ktorú nevyužijete.">
-  <PageHead title="Blog" lede="Poznámky z praxe. Píšeme ich tak, aby ste podľa nich vedeli niečo urobiť." />
-  <section class="section wrap">
+  <PageHead title="Poznámky z praxe." lede="Píšeme ich tak, aby ste podľa nich vedeli niečo urobiť." />
+  <section class="section section--end wrap">
     <ul class="posts">
       {
-        posts.map((p, i) => (
-          <li data-reveal style={`--i:${i}`}>
-            <time datetime={p.data.date.toISOString()}>{fmt.format(p.data.date)}</time>
-            <div>
-              <h2><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
-              <p>{p.data.description}</p>
-            </div>
+        posts.map((p) => (
+          <li>
+            <time class="lab" datetime={p.data.date.toISOString()}>{fmt.format(p.data.date)}</time>
+            <h2><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
+            <p class="muted">{p.data.description}</p>
           </li>
         ))
       }
@@ -30,41 +28,37 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { day: 'numeric', month: 'long', ye
 
 <style>
   .posts {
-    border-top: 1.5px solid var(--ink);
+    border-top: 1px solid var(--ink);
   }
   .posts li {
     display: grid;
     gap: 0.5rem;
-    padding-block: clamp(1.75rem, 3.5vw, 3rem);
-    border-bottom: 1px solid var(--line);
-  }
-  time {
-    font-size: var(--step--1);
-    color: var(--ink-soft);
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
+    border-bottom: 1px solid var(--hair);
   }
   h2 {
-    font-size: var(--step-2);
+    max-width: 20em;
     line-height: 1.08;
-    max-width: 24ch;
   }
   h2 a {
     text-decoration: none;
   }
   h2 a:hover {
-    background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 82% / 100% 0.38em;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.14em;
   }
   .posts p {
-    margin-top: 0.75rem;
-    color: var(--ink-soft);
-    max-width: 56ch;
+    max-width: 44em;
   }
-  @media (min-width: 48rem) {
+  @media (min-width: 56rem) {
     .posts li {
-      grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
-      gap: 0.5rem 2rem;
+      grid-template-columns: 3fr 9fr;
+      column-gap: 3rem;
     }
     time {
-      padding-top: 0.5em;
+      grid-row: 1 / 3;
+      padding-top: 0.9em;
     }
   }
 </style>

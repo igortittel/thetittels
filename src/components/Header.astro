@@ -4,10 +4,8 @@ const path = Astro.url.pathname;
 ---
 
 <header class="head">
-  <div class="wrap head__in">
-    <a class="logo" href="/" aria-label={`${site.name}, domov`}>
-      <span>{site.wordmark[0]}</span>{site.wordmark[1]}
-    </a>
+  <div class="head__in">
+    <a class="logo" href="/" aria-label={`${site.name}, domov`}>{site.name}</a>
     <button class="menu" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Hlavná navigácia">
       <ul>
@@ -40,93 +38,64 @@ const path = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--paper) 88%, transparent);
-    backdrop-filter: saturate(1.6) blur(14px);
-    view-transition-name: head;
-    transition: box-shadow 0.3s var(--ease);
+    background: var(--paper);
+    transition: box-shadow 0.2s;
   }
   .head:global(.is-scrolled) {
-    box-shadow: 0 1px 0 var(--line);
+    box-shadow: 0 1px 0 var(--ink);
   }
   .head__in {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    min-height: 4rem;
+    min-height: 3.75rem;
+    padding-inline: var(--gutter);
   }
   .logo {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: 1.5rem;
-    letter-spacing: -0.02em;
+    font-weight: 620;
+    font-size: 1.125rem;
     text-decoration: none;
   }
-  .logo span {
-    font-weight: 300;
-    font-style: italic;
-  }
   .menu {
-    display: inline-flex;
-    align-items: center;
     min-height: 2.75rem;
-    padding: 0 1.1rem;
+    padding: 0 0 0 1rem;
     border: 0;
-    border-radius: 999px;
-    background: var(--mist);
-    font-family: var(--display);
-    font-weight: 600;
+    background: none;
+    font-size: 1.0625rem;
     cursor: pointer;
-    transition:
-      background-color 0.25s var(--ease),
-      color 0.25s var(--ease);
   }
   .menu[aria-expanded='true'] {
-    background: var(--ink);
-    color: var(--paper);
+    text-decoration: underline;
+    text-underline-offset: 0.24em;
   }
   .nav {
     display: none;
     position: absolute;
     inset: 100% 0 auto 0;
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
     padding: 0.5rem var(--gutter) 1.5rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--ink);
   }
   .nav:global(.is-open) {
     display: block;
-  }
-  .nav:global(.is-open) li {
-    animation: nav-in 0.5s var(--ease) both;
-    animation-delay: calc(var(--i) * 45ms);
-  }
-  @keyframes nav-in {
-    from {
-      opacity: 0;
-      transform: translateY(-0.6rem);
-    }
   }
   .nav a {
     display: flex;
     align-items: center;
     min-height: 3.5rem;
-    font-family: var(--display);
     font-size: var(--step-2);
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.022em;
     text-decoration: none;
+    border-top: 1px solid var(--hair);
   }
   .nav a[aria-current='page'] {
-    font-style: italic;
+    font-weight: 620;
   }
-
   @media (min-width: 46rem) {
-    .head__in {
-      min-height: 4.5rem;
-    }
     .menu {
       display: none;
     }
@@ -135,7 +104,6 @@ const path = Astro.url.pathname;
       position: static;
       padding: 0;
       border: 0;
-      background: none;
     }
     .nav ul {
       display: flex;
@@ -144,17 +112,16 @@ const path = Astro.url.pathname;
     .nav a {
       display: inline-flex;
       min-height: 2.75rem;
-      font-family: var(--body);
-      font-size: var(--step--1);
-      font-weight: 500;
+      font-size: 1.0625rem;
       letter-spacing: 0;
-      background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 78% / 0 0.4em;
-      transition: background-size 0.35s var(--ease);
+      border: 0;
     }
     .nav a:hover,
     .nav a[aria-current='page'] {
-      background-size: 100% 0.4em;
-      font-style: normal;
+      font-weight: 400;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.3em;
     }
   }
 </style>

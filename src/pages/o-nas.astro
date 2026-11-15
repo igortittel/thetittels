@@ -37,8 +37,8 @@ const schema = [
   />
 
   <section class="section wrap split" aria-labelledby="h-my">
-    <h2 id="h-my" data-reveal="mask">Ako pracujeme</h2>
-    <div class="prose">
+    <h2 class="lab" id="h-my">Ako pracujeme</h2>
+    <div class="prose big">
       <p>
         Hovoríme na rovinu a čakáme to isté. Ak niečo máte nastavené dobre, nebudeme to meniť. Ak sa vám niečo
         neoplatí, povieme to, aj keby sme na tom mohli zarobiť. Odporúčame len to, čo sa dá zmerať a obhájiť číslami.
@@ -50,30 +50,26 @@ const schema = [
     </div>
   </section>
 
-  <section class="section">
-    <div class="band">
-      <div class="wrap split" aria-labelledby="h-igor">
-        <h2 id="h-igor" data-reveal="mask">Igor Tittel</h2>
-        <div class="prose igor" data-reveal>
-          <p>
-            „V marketingu pracujem viac ako dvanásť rokov. Začínal som pri kampaniach a postupne som sa dostal k
-            všetkému, čo s nimi súvisí: k meraniu, bez ktorého sa kampane nedajú riadiť, k automatizácii, ktorá sa
-            stará o zákazníkov po prvom nákupe, a k webom, na ktorých sa to celé odohráva.
-          </p>
-          <p>
-            Za ten čas som pracoval na projektoch veľkých značiek. Naučilo ma to dve veci. Postupy, ktoré fungujú vo
-            veľkom, fungujú aj v malom, len ich treba zmenšiť na rozumnú mieru. A väčšina problémov v marketingu nie je
-            v nástrojoch, ale v tom, že nikto nepovedal nahlas, čo nefunguje.“
-          </p>
-        </div>
-      </div>
+  <section class="section wrap split" aria-labelledby="h-igor">
+    <h2 class="lab" id="h-igor">Igor Tittel</h2>
+    <div class="prose big">
+      <p>
+        „V marketingu pracujem viac ako dvanásť rokov. Začínal som pri kampaniach a postupne som sa dostal k všetkému,
+        čo s nimi súvisí: k meraniu, bez ktorého sa kampane nedajú riadiť, k automatizácii, ktorá sa stará o zákazníkov
+        po prvom nákupe, a k webom, na ktorých sa to celé odohráva.
+      </p>
+      <p>
+        Za ten čas som pracoval na projektoch veľkých značiek. Naučilo ma to dve veci. Postupy, ktoré fungujú vo veľkom,
+        fungujú aj v malom, len ich treba zmenšiť na rozumnú mieru. A väčšina problémov v marketingu nie je v
+        nástrojoch, ale v tom, že nikto nepovedal nahlas, čo nefunguje.“
+      </p>
     </div>
   </section>
 
-  <section class="section wrap">
-    <div class="cta" data-reveal>
-      <a class="btn" href="/mixer/">Zistiť, čím vám vieme byť <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="btn btn--ghost" href="/kontakt/">Napísať</a>
+  <section class="section section--end wrap">
+    <div class="actions">
+      <a class="btn" href="/dopyt/">Zistiť, čím vám vieme byť</a>
+      <a class="textlink" href="/kontakt/">Alebo rovno napísať</a>
     </div>
   </section>
 </Base>
@@ -81,33 +77,23 @@ const schema = [
 <style>
   .split {
     display: grid;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: start;
   }
-  h2 {
-    font-size: var(--step-2);
-    line-height: 1.08;
+  .split > .lab {
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--ink);
   }
-  .prose {
+  .big {
     font-size: var(--step-1);
     line-height: 1.42;
-  }
-  .band {
-    background: var(--mist);
-    padding-block: clamp(3.5rem, 8vw, 8rem);
-  }
-  .igor {
-    font-style: italic;
-  }
-  .cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    max-width: 34em;
+    padding-top: 0.6rem;
   }
   @media (min-width: 56rem) {
     .split {
-      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-      gap: 1.5rem clamp(2rem, 5vw, 6rem);
+      grid-template-columns: 3fr 9fr;
+      gap: 3rem;
     }
   }
 </style>

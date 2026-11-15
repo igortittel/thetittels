@@ -7,17 +7,17 @@ const { title, lede } = Astro.props;
 ---
 
 <header class="ph wrap">
-  <h1 class="rise">{title}</h1>
-  {lede && <p class="lede rise" style="--i:1">{lede}</p>}
+  <h1>{title}</h1>
+  {lede && <p class="lede">{lede}</p>}
   <slot />
 </header>
 
 <style>
   .ph {
-    padding-top: clamp(2.25rem, 1.5rem + 5vw, 6.5rem);
+    padding-top: clamp(2rem, 1.5rem + 5vw, 6rem);
   }
   h1 {
-    max-width: 16ch;
+    max-width: 15em;
   }
   .lede {
     margin-top: clamp(1.25rem, 2.5vw, 2rem);

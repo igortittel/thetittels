@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
-import { problems, steps } from '../data/mixer';
+import { problems, steps } from '../data/assessment';
 import { services } from '../data/services';
 import { site } from '../data/site';
 
@@ -11,18 +11,18 @@ const fieldName: Record<string, string> = { company: 'business' };
 ---
 
 <Base
-  title="Mixér: zistite, čím vám vieme byť"
+  title="Štyri otázky: zistite, čím vám vieme byť"
   description="Štyri krátke kroky. Označíte, čo riešite, a dostanete odporúčanie, s čím vám vieme pomôcť a v akej role."
 >
   <PageHead
-    title="Mixér"
-    lede="Štyri krátke kroky. Na konci uvidíte, v akej role vám vieme pomôcť, a my budeme vedieť dosť na to, aby sme sa ozvali s konkrétnym návrhom."
+    title="Štyri krátke otázky."
+    lede="Na konci uvidíte, v akej role vám vieme pomôcť, a my budeme vedieť dosť na to, aby sme sa ozvali s konkrétnym návrhom."
   />
 
-  <section class="section wrap">
+  <section class="section section--end wrap">
     <form class="wiz" data-lead="mixer" data-email={site.email} data-done="#hotovo">
       <div class="wiz__top">
-        <p class="wiz__progress" data-progress aria-live="polite"></p>
+        <p class="wiz__progress lab" data-progress aria-live="polite"></p>
         <div class="wiz__bar" aria-hidden="true"><span data-bar></span></div>
       </div>
 
@@ -64,8 +64,8 @@ const fieldName: Record<string, string> = { company: 'business' };
       }
 
       <div class="wiz__step" data-step>
-        <div class="wiz__result" data-result hidden>
-          <p class="wiz__pre">Podľa odpovedí vám vieme byť</p>
+        <div class="wiz__result inv" data-result hidden>
+          <p class="lab">Podľa odpovedí vám vieme byť</p>
           <p class="wiz__role" data-role></p>
           <p data-text></p>
           <ul data-services></ul>
@@ -105,9 +105,9 @@ const fieldName: Record<string, string> = { company: 'business' };
 
       <p class="wiz__msg" data-status role="status"></p>
       <div class="wiz__nav">
-        <button class="btn btn--ghost" type="button" data-back hidden>Späť</button>
-        <button class="btn" type="button" data-next hidden>Ďalej <span class="arrow" aria-hidden="true">→</span></button>
-        <button class="btn" type="submit" data-submit>Odoslať <span class="arrow" aria-hidden="true">→</span></button>
+        <button class="btn btn--line" type="button" data-back hidden>Späť</button>
+        <button class="btn" type="button" data-next hidden>Ďalej</button>
+        <button class="btn" type="submit" data-submit>Odoslať</button>
       </div>
       <script type="application/json" data-names set:html={JSON.stringify(names)} />
     </form>
@@ -115,7 +115,7 @@ const fieldName: Record<string, string> = { company: 'business' };
     <div id="hotovo" class="done" tabindex="-1" hidden>
       <h2>Ďakujeme, máme to.</h2>
       <p class="lede">Ozveme sa do dvoch pracovných dní s konkrétnym návrhom ďalšieho kroku.</p>
-      <p><a class="textlink" href="/blog/">Zatiaľ si môžete prečítať blog</a></p>
+      <p><a href="/blog/">Zatiaľ si môžete prečítať blog</a></p>
     </div>
   </section>
 </Base>
@@ -144,6 +144,14 @@ const fieldName: Record<string, string> = { company: 'business' };
   form.querySelectorAll<HTMLInputElement>('input[name="p"]').forEach((i) => {
     if (preset.includes(i.value)) i.checked = true;
   });
+  // Z úvodnej vety prídu aj odpovede o firme.
+  const query = new URLSearchParams(location.search);
+  for (const name of ['business', 'marketing']) {
+    const value = query.get(name);
+    form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`).forEach((i) => {
+      if (i.value === value) i.checked = true;
+    });
+  }
 
   const showResult = () => {
     const r = rec();
@@ -232,28 +240,30 @@ const fieldName: Record<string, string> = { company: 'business' };
     display: block;
   }
   .wiz__progress {
-    font-size: var(--step--1);
-    color: var(--ink-soft);
     font-variant-numeric: tabular-nums lining-nums;
   }
   .wiz__bar {
-    height: 6px;
-    margin-top: 0.6rem;
-    border-radius: 999px;
-    background: var(--mist);
-    overflow: hidden;
+    height: 1px;
+    margin-top: 0.75rem;
+    background: var(--hair);
   }
   .wiz__bar span {
     display: block;
-    height: 100%;
-    border-radius: inherit;
-    background: var(--lime-deep);
+    height: 3px;
+    margin-top: -1px;
+    background: var(--ink);
     transform: scaleX(0.25);
     transform-origin: left;
     transition: transform 0.6s var(--ease);
   }
+  .wiz__step + .wiz__step {
+    margin-top: 3rem;
+  }
+  .wiz:global(.is-wizard) .wiz__step + .wiz__step {
+    margin-top: 0;
+  }
   .wiz:global(.is-wizard) .wiz__step:not([hidden]) {
-    animation: step-in 0.55s var(--ease) both;
+    animation: step-in 0.5s var(--ease) both;
   }
   .wiz:global(.is-wizard) .wiz__step[data-dir='back']:not([hidden]) {
     animation-name: step-back;
@@ -261,20 +271,14 @@ const fieldName: Record<string, string> = { company: 'business' };
   @keyframes step-in {
     from {
       opacity: 0;
-      transform: translateX(1.75rem);
+      transform: translateX(1.5rem);
     }
   }
   @keyframes step-back {
     from {
       opacity: 0;
-      transform: translateX(-1.75rem);
+      transform: translateX(-1.5rem);
     }
-  }
-  .wiz__step + .wiz__step {
-    margin-top: 3rem;
-  }
-  .wiz:global(.is-wizard) .wiz__step + .wiz__step {
-    margin-top: 0;
   }
   fieldset {
     border: 0;
@@ -283,63 +287,56 @@ const fieldName: Record<string, string> = { company: 'business' };
     min-width: 0;
   }
   fieldset + fieldset {
-    margin-top: 2.75rem;
+    margin-top: 2.5rem;
   }
   legend {
     padding: 0;
     margin-bottom: 1rem;
-    font-family: var(--display);
-    font-weight: 600;
     font-size: var(--step-2);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-weight: 360;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
   }
   legend:focus {
     outline: none;
   }
   .hint {
-    font-family: var(--body);
-    font-weight: 400;
     font-size: var(--step--1);
-    color: var(--ink-soft);
-    letter-spacing: 0;
+    color: var(--mid);
   }
   p.hint {
     margin: -0.5rem 0 1.25rem;
   }
   .wiz__result {
-    padding: clamp(1.5rem, 3vw, 2.5rem);
-    border-radius: 16px;
-    background: var(--ink);
-    color: var(--paper);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
     margin-bottom: 3rem;
   }
   .wiz__result:focus {
     outline: none;
   }
-  .wiz__pre {
-    color: #a9b5ad;
-  }
   .wiz__role {
-    margin: 0.25rem 0 1rem;
-    font-family: var(--display);
-    font-weight: 600;
+    margin: 0.5rem 0 1rem;
     font-size: var(--step-3);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--lime);
+    font-weight: 620;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
     text-wrap: balance;
   }
   .wiz__result [data-text] {
-    max-width: 44ch;
+    max-width: 30em;
+    font-size: var(--step-1);
+    line-height: 1.4;
   }
   .wiz__result ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem 1.25rem;
+    gap: 0.3rem 1.5rem;
     margin-top: 1.25rem;
-    font-size: var(--step--1);
-    color: #d5ddd7;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--inv-mid);
   }
   .grid {
     display: grid;
@@ -355,18 +352,14 @@ const fieldName: Record<string, string> = { company: 'business' };
     min-height: 1.6em;
     margin-top: 1.5rem;
   }
-  .wiz__msg:global(.error) {
-    color: var(--error);
-  }
   .wiz__nav {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem;
     margin-top: 0.75rem;
   }
   .wiz__nav [data-next],
   .wiz__nav [data-submit] {
     flex: 1;
-    justify-content: space-between;
   }
   .done:focus {
     outline: none;
@@ -381,7 +374,6 @@ const fieldName: Record<string, string> = { company: 'business' };
     .wiz__nav [data-next],
     .wiz__nav [data-submit] {
       flex: none;
-      justify-content: flex-start;
     }
   }
 </style>
