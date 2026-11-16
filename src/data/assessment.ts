@@ -20,6 +20,8 @@ export const problems: Problem[] = [
   // Tieto dve nemajú konkrétnu službu, vedú rovno k role.
   { id: 's1', label: 'Chýba nám marketingová stratégia a plán', phrase: 'nemáme stratégiu ani plán', services: [], role: 'strateg' },
   { id: 's2', label: 'Chceme nezávislý pohľad na to, čo robí agentúra', phrase: 'nevieme, či agentúra robí dobre', services: [], role: 'konzultant' },
+  // Bez služby aj roly: ak nie je označené nič iné, vyjde marketingový konzultant.
+  { id: 'x1', label: 'Niečo iné', phrase: 'riešime niečo iné', services: [] },
 ];
 
 export type Role = { id: string; title: string; text: string; services: string[] };
@@ -122,45 +124,32 @@ export const wideRoles: Record<string, Role> = {
   },
 };
 
+// `multi` znamená, že sa dá označiť viac možností.
 export const steps = {
-  company: {
-    legend: 'Čím sa firma živí',
-    options: ['E-shop', 'Služby', 'B2B', 'Niečo iné'],
+  business: {
+    legend: 'Čo predávate',
+    multi: true,
+    options: [
+      'Fyzický produkt',
+      'Digitálny produkt',
+      'Službu na mieste (salón, kurzy, prevádzka)',
+      'Službu na diaľku',
+      'Niečo iné',
+    ],
   },
-  team: {
-    legend: 'Koľko vás je',
-    options: ['1 – 10', '11 – 50', '51 – 250', 'Viac ako 250'],
-  },
-  marketing: {
-    legend: 'Kto sa dnes stará o marketing',
-    options: ['Nikto', 'Vlastný človek alebo tím', 'Agentúra', 'Freelancer'],
+  audience: {
+    legend: 'Komu predávate',
+    multi: false,
+    options: ['Ľuďom', 'Firmám', 'Ľuďom aj firmám'],
   },
   timing: {
     legend: 'Kedy chcete začať',
+    multi: false,
     options: ['Čo najskôr', 'Do troch mesiacov', 'Zatiaľ zisťujeme možnosti'],
   },
   form: {
     legend: 'Akú spoluprácu hľadáte',
+    multi: false,
     options: ['Jednorazový projekt', 'Dlhodobú spoluprácu', 'Konzultáciu', 'Ešte nevieme'],
   },
-  budget: {
-    legend: 'Mesačný rozpočet na marketing vrátane reklamy',
-    options: ['Do 1 000 €', '1 000 – 5 000 €', '5 000 – 20 000 €', 'Viac ako 20 000 €', 'Nevieme povedať'],
-  },
-};
-
-// Tvary pre úvodnú vetu: [hodnota v dotazníku, znenie vo vete].
-export const sentence = {
-  company: [
-    ['E-shop', 'e-shop'],
-    ['Služby', 'firma so službami'],
-    ['B2B', 'B2B firma'],
-    ['Niečo iné', 'iný typ firmy'],
-  ],
-  marketing: [
-    ['Agentúra', 'agentúra'],
-    ['Vlastný človek alebo tím', 'vlastný tím'],
-    ['Freelancer', 'freelancer'],
-    ['Nikto', 'majiteľ popri inej práci'],
-  ],
 };

@@ -9,7 +9,8 @@ export function getStaticPaths() {
 }
 
 const { service, index } = Astro.props as { service: Service; index: number };
-const others = services.filter((s) => s.slug !== service.slug);
+const next = services[(index + 1) % services.length];
+const num = (n: number) => String(n).padStart(2, '0');
 const url = `${site.url}/sluzby/${service.slug}/`;
 
 const schema = [
@@ -52,48 +53,80 @@ const schema = [
     <Part index={index} tag={service.tag} />
   </header>
 
-  <section class="section wrap">
-    <div class="ledger">
-      <div class="ledger__head lab"><span>Služba</span><span>Dnes</span><span>Potom</span></div>
-      <div class="ledger__row">
-        <b>{service.name}</b>
-        <span class="now">{service.today}</span>
-        <span class="then">{service.after}</span>
+  <section class="section">
+    <div class="inv shift" data-shift>
+      <div class="wrap">
+        <p class="shift__now">
+          <span class="lab">Dnes</span>
+          <span><span class="strike" data-strike>{service.today}</span></span>
+        </p>
+        <i class="shift__line" data-line aria-hidden="true"></i>
+        <p class="shift__then">
+          <span class="lab">Potom</span>
+          <span data-words>
+            {service.after.split(' ').map((word) => (
+              <>
+                <span class="w">{word}</span>{' '}
+              </>
+            ))}
+          </span>
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="section wrap split" aria-labelledby="h-kedy">
-    <h2 class="lab" id="h-kedy">Kedy to dáva zmysel</h2>
-    <ul class="big">
-      {service.when.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="section wrap split" aria-labelledby="h-co">
-    <h2 class="lab" id="h-co">Čo dostanete</h2>
-    <ul class="plain">
-      {service.get.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="section wrap split" aria-labelledby="h-faq">
-    <h2 class="lab" id="h-faq">Časté otázky</h2>
-    <dl class="faq">
+  <section class="section wrap" aria-labelledby="h-kedy">
+    <h2 class="leadin" id="h-kedy">Ozvite sa, keď</h2>
+    <ol class="cases" data-lit>
       {
-        service.faq.map((f) => (
-          <div>
-            <dt>{f.q}</dt>
-            <dd>{f.a}</dd>
-          </div>
+        service.when.map((item, i) => (
+          <li>
+            <span class="lab">{num(i + 1)}</span>
+            <p>{item}</p>
+          </li>
         ))
       }
-    </dl>
+    </ol>
+  </section>
+
+  <section class="section wrap" aria-labelledby="h-co">
+    <h2 class="leadin" id="h-co">Na konci máte v rukách</h2>
+    <ul class="outs" data-reveal="children">
+      {
+        service.get.map((item, i) => (
+          <li>
+            <i class="cross" style="left:-6px;top:-6px" />
+            <i class="cross" style="right:-6px;bottom:-6px" />
+            <span class="lab">
+              {num(i + 1)} / {num(service.get.length)}
+            </span>
+            <p>{item}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section wrap faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">Otázky, ktoré dostávame.</h2>
+    <div class="faq__list">
+      {
+        service.faq.map((f) => (
+          <details name="faq">
+            <summary>
+              <span>{f.q}</span>
+              <i aria-hidden="true" />
+            </summary>
+            <p>{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
   </section>
 
   <section class="section">
     <div class="inv band">
-      <div class="wrap">
+      <div class="wrap" data-reveal>
         <p>Napíšte, ako to máte dnes. Povieme vám, či a ako vieme pomôcť.</p>
         <div class="actions">
           <a class="btn" href="/kontakt/">Napísať</a>
@@ -103,11 +136,12 @@ const schema = [
     </div>
   </section>
 
-  <nav class="section section--end wrap" aria-labelledby="h-dalsie">
-    <h2 class="visually-hidden" id="h-dalsie">Ďalšie služby</h2>
-    <ul class="others">
-      {others.map((s) => <li><a href={`/sluzby/${s.slug}/`}>{s.name}</a></li>)}
-    </ul>
+  <nav class="wrap" aria-label="Ďalšia služba">
+    <a class="next" href={`/sluzby/${next.slug}/`}>
+      <span class="lab">Ďalší diel</span>
+      <b>{next.name}</b>
+      <i aria-hidden="true">→</i>
+    </a>
   </nav>
 </Base>
 
@@ -128,50 +162,148 @@ const schema = [
   .head .lede {
     margin-top: clamp(1.25rem, 2.5vw, 2rem);
   }
-  .split {
+
+  /* Dnes → Potom: prvá veta sa pri skrolovaní prečiarkne, druhá sa vypíše. */
+  .shift {
+    padding-block: clamp(4rem, 12vw, 11rem);
+  }
+  .shift p {
     display: grid;
-    gap: 1rem;
-    align-items: start;
-  }
-  .split > .lab {
-    padding-top: 0.9rem;
-    border-top: 1px solid var(--ink);
-  }
-  .big li {
-    font-size: var(--step-2);
+    gap: 0.75rem;
+    max-width: 15em;
+    font-size: var(--step-3);
     font-weight: 360;
-    line-height: 1.1;
+    line-height: 1.06;
     letter-spacing: -0.022em;
-    padding-block: 1.25rem;
-    border-bottom: 1px solid var(--hair);
     text-wrap: balance;
   }
-  .plain li {
-    padding-block: 1rem;
-    border-bottom: 1px solid var(--hair);
+  .shift__now {
+    color: var(--inv-mid);
+  }
+  .strike {
+    --strike: 100%;
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 56% / var(--strike) 0.055em;
+    -webkit-box-decoration-break: slice;
+    box-decoration-break: slice;
+  }
+  .shift__line {
+    display: block;
+    width: 1px;
+    height: clamp(3rem, 8vw, 6rem);
+    margin-block: clamp(1.25rem, 3vw, 2.5rem);
+    background: var(--paper);
+    transform-origin: top;
+  }
+
+  .leadin {
     font-size: var(--step-1);
-    line-height: 1.38;
-    max-width: 40em;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0;
+    color: var(--mid);
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
   }
-  .faq > div {
-    padding-block: 1.4rem;
+  .cases {
+    border-top: 1px solid var(--ink);
+  }
+  .cases li {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: clamp(1.25rem, 3vw, 2.25rem);
     border-bottom: 1px solid var(--hair);
   }
-  .big li:first-child,
-  .plain li:first-child,
-  .faq > div:first-child {
-    padding-top: 0.6rem;
+  .cases p {
+    font-size: var(--step-2);
+    font-weight: 360;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+    max-width: 20em;
+    text-wrap: balance;
   }
-  .faq dt {
+
+  .outs {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .outs li {
+    position: relative;
+    display: grid;
+    gap: 2.5rem;
+    align-content: space-between;
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    border: 1px solid var(--ink);
+  }
+  .outs p {
+    font-size: var(--step-1);
+    line-height: 1.34;
+  }
+
+  .faq {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .faq__list {
+    border-top: 1px solid var(--ink);
+  }
+  details {
+    border-bottom: 1px solid var(--hair);
+    interpolate-size: allow-keywords;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.25rem;
     font-size: var(--step-1);
     font-weight: 620;
     line-height: 1.22;
+    list-style: none;
+    cursor: pointer;
   }
-  .faq dd {
-    margin: 0.5rem 0 0;
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary i {
+    position: relative;
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  summary i::before,
+  summary i::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.4s var(--ease);
+  }
+  summary i::after {
+    transform: rotate(90deg);
+  }
+  details[open] summary i::after {
+    transform: rotate(0deg);
+  }
+  details p {
     max-width: 40em;
+    padding-bottom: 1.5rem;
     color: var(--mid);
   }
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.45s var(--ease),
+      content-visibility 0.45s allow-discrete;
+  }
+  details[open]::details-content {
+    block-size: auto;
+  }
+
   .band {
     padding-block: clamp(3.5rem, 8vw, 7rem);
   }
@@ -186,28 +318,58 @@ const schema = [
   .band .actions {
     margin-top: 2.25rem;
   }
-  .others {
-    padding-top: 1rem;
-    border-top: 1px solid var(--ink);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 2rem;
+
+  .next {
+    position: relative;
+    display: grid;
+    gap: 0.5rem;
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+    text-decoration: none;
   }
-  .others a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    font-size: var(--step-1);
+  .next b {
+    font-size: var(--step-3);
+    font-weight: 360;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    padding-right: 1.2em;
   }
+  .next i {
+    position: absolute;
+    right: 0;
+    bottom: clamp(2.5rem, 6vw, 5rem);
+    font-size: var(--step-3);
+    font-style: normal;
+    line-height: 1.04;
+    transition: transform 0.4s var(--ease);
+  }
+  .next:hover i {
+    transform: translateX(0.5rem);
+  }
+
   @media (min-width: 56rem) {
     .head {
       grid-template-columns: 7fr 5fr;
       gap: 3rem;
       align-items: end;
     }
-    .split {
+    .cases li {
       grid-template-columns: 3fr 9fr;
       gap: 3rem;
+      align-items: baseline;
+    }
+    .outs {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .outs li {
+      min-height: 17rem;
+    }
+    .faq {
+      grid-template-columns: 4fr 8fr;
+      gap: 3rem;
+    }
+    .faq h2 {
+      position: sticky;
+      top: 6rem;
     }
   }
 </style>

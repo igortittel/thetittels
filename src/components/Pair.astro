@@ -1,0 +1,38 @@
+---
+// Dve kolesá, ktoré do seba zapadajú: dvaja ľudia, jedna značka.
+---
+
+<div class="pair" data-pair>
+  <canvas aria-hidden="true"></canvas>
+  <span class="lab t2">2 × Tittel</span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-pair]').forEach(async (host) => {
+    if (!('ResizeObserver' in window)) return;
+    const { mountPair } = await import('../scripts/machine');
+    mountPair(host.querySelector('canvas')!, host);
+  });
+</script>
+
+<style>
+  .pair {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    max-width: 100%;
+    border: 1px solid var(--hair);
+    touch-action: pan-y;
+    cursor: grab;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .t2 {
+    position: absolute;
+    left: 0.9rem;
+    top: 0.75rem;
+  }
+</style>

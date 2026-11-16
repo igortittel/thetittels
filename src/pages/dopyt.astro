@@ -7,7 +7,6 @@ import { site } from '../data/site';
 
 const names = Object.fromEntries(services.map((s) => [s.slug, s.name]));
 const groups = (keys: (keyof typeof steps)[]) => keys.map((key) => ({ key, ...steps[key] }));
-const fieldName: Record<string, string> = { company: 'business' };
 ---
 
 <Base
@@ -44,15 +43,16 @@ const fieldName: Record<string, string> = { company: 'business' };
       </div>
 
       {
-        [groups(['company', 'team', 'marketing']), groups(['timing', 'form', 'budget'])].map((set) => (
+        [groups(['business', 'audience']), groups(['timing', 'form'])].map((set) => (
           <div class="wiz__step" data-step>
             {set.map((g) => (
               <fieldset>
                 <legend>{g.legend}</legend>
+                {g.multi && <p class="hint">Môžete označiť viac možností.</p>}
                 <div class="chips">
                   {g.options.map((o) => (
                     <label class="chip">
-                      <input type="radio" name={fieldName[g.key] ?? g.key} value={o} />
+                      <input type={g.multi ? 'checkbox' : 'radio'} name={g.key} value={o} data-q />
                       <span>{o}</span>
                     </label>
                   ))}
@@ -144,14 +144,6 @@ const fieldName: Record<string, string> = { company: 'business' };
   form.querySelectorAll<HTMLInputElement>('input[name="p"]').forEach((i) => {
     if (preset.includes(i.value)) i.checked = true;
   });
-  // Z úvodnej vety prídu aj odpovede o firme.
-  const query = new URLSearchParams(location.search);
-  for (const name of ['business', 'marketing']) {
-    const value = query.get(name);
-    form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`).forEach((i) => {
-      if (i.value === value) i.checked = true;
-    });
-  }
 
   const showResult = () => {
     const r = rec();
@@ -171,9 +163,9 @@ const fieldName: Record<string, string> = { company: 'business' };
   const valid = () => {
     const step = stepEls[current];
     if (current === 0) return picked().length > 0 || 'Označte aspoň jednu vec.';
-    const groups = new Set([...step.querySelectorAll<HTMLInputElement>('input[type="radio"]')].map((i) => i.name));
+    const groups = new Set([...step.querySelectorAll<HTMLInputElement>('input[data-q]')].map((i) => i.name));
     for (const name of groups) {
-      if (!form.querySelector(`input[name="${name}"]:checked`)) return 'Vyberte jednu možnosť pri každej otázke.';
+      if (!form.querySelector(`input[name="${name}"]:checked`)) return 'Vyberte odpoveď pri každej otázke.';
     }
     return true;
   };
@@ -224,6 +216,7 @@ const fieldName: Record<string, string> = { company: 'business' };
 
   wireLeadForm(form, () => ({
     problems: picked().map((i) => i.dataset.label),
+    business: [...form.querySelectorAll<HTMLInputElement>('input[name="business"]:checked')].map((i) => i.value),
     role: rec()?.role.title ?? '',
   }));
 </script>

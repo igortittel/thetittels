@@ -17,6 +17,8 @@ npm run build    # produkčný build
 | Kontaktný e-mail, navigácia, popis webu | `src/data/site.ts` |
 | Služby (texty, FAQ, poradie = poradie dielov stroja) | `src/data/services.ts` |
 | Dopyt (problémy, roly, otázky) | `src/data/assessment.ts` |
+| Referencie (značky, weby, nástroje) | `src/data/proof.ts` |
+| Pohyb pri skrolovaní (GSAP) | `src/scripts/motion.ts` |
 | 3D stroj na úvode (tvary dielov) | `src/scripts/machine.ts` |
 | Články | `src/content/blog/*.md` |
 | Farby, písmo, rozostupy | `src/styles/global.css` |
