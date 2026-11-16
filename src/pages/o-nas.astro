@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHead from '../components/PageHead.astro';
+import Pair from '../components/Pair.astro';
+import Proof from '../components/Proof.astro';
 import { site } from '../data/site';
 
 const schema = [
@@ -31,17 +32,22 @@ const schema = [
   description="The Tittels sú dvaja ľudia s jedným priezviskom. Viac ako dvanásť rokov v marketingu, skúsenosti z projektov veľkých značiek a pragmatický prístup."
   schema={schema}
 >
-  <PageHead
-    title="Jedno priezvisko, dvaja ľudia."
-    lede="The Tittels sme my dvaja. Značku sme pomenovali po sebe, lebo za prácou, ktorú odovzdáme, stojíme menom."
-  />
+  <header class="head wrap">
+    <div>
+      <h1>Jedno priezvisko, dvaja ľudia.</h1>
+      <p class="lede">
+        The Tittels sme my dvaja. Značku sme pomenovali po sebe, lebo za prácou, ktorú odovzdáme, stojíme menom.
+      </p>
+    </div>
+    <Pair />
+  </header>
 
-  <section class="section wrap split" aria-labelledby="h-my">
-    <h2 class="lab" id="h-my">Ako pracujeme</h2>
-    <div class="prose big">
+  <section class="section wrap">
+    <h2 class="claim" data-reveal>Hovoríme na rovinu a čakáme to isté.</h2>
+    <div class="cols" data-reveal="children">
       <p>
-        Hovoríme na rovinu a čakáme to isté. Ak niečo máte nastavené dobre, nebudeme to meniť. Ak sa vám niečo
-        neoplatí, povieme to, aj keby sme na tom mohli zarobiť. Odporúčame len to, čo sa dá zmerať a obhájiť číslami.
+        Ak niečo máte nastavené dobre, nebudeme to meniť. Ak sa vám niečo neoplatí, povieme to, aj keby sme na tom
+        mohli zarobiť. Odporúčame len to, čo sa dá zmerať a obhájiť číslami.
       </p>
       <p>
         Pracujeme najmä pre malé a stredné firmy, ktoré nemajú vlastné marketingové oddelenie alebo v ňom chýba človek
@@ -50,23 +56,29 @@ const schema = [
     </div>
   </section>
 
-  <section class="section wrap split" aria-labelledby="h-igor">
-    <h2 class="lab" id="h-igor">Igor Tittel</h2>
-    <div class="prose big">
-      <p>
-        „V marketingu pracujem viac ako dvanásť rokov. Začínal som pri kampaniach a postupne som sa dostal k všetkému,
-        čo s nimi súvisí: k meraniu, bez ktorého sa kampane nedajú riadiť, k automatizácii, ktorá sa stará o zákazníkov
-        po prvom nákupe, a k webom, na ktorých sa to celé odohráva.
-      </p>
-      <p>
-        Za ten čas som pracoval na projektoch veľkých značiek. Naučilo ma to dve veci. Postupy, ktoré fungujú vo veľkom,
-        fungujú aj v malom, len ich treba zmenšiť na rozumnú mieru. A väčšina problémov v marketingu nie je v
-        nástrojoch, ale v tom, že nikto nepovedal nahlas, čo nefunguje.“
-      </p>
+  <section class="section">
+    <div class="inv igor">
+      <figure class="wrap">
+        <blockquote data-lit>
+          <p>
+            „V marketingu pracujem viac ako dvanásť rokov. Začínal som pri kampaniach a postupne som sa dostal k
+            všetkému, čo s nimi súvisí: k meraniu, bez ktorého sa kampane nedajú riadiť, k automatizácii, ktorá sa
+            stará o zákazníkov po prvom nákupe, a k webom, na ktorých sa to celé odohráva.
+          </p>
+          <p>
+            Za ten čas som pracoval na projektoch veľkých značiek. Naučilo ma to dve veci. Postupy, ktoré fungujú vo
+            veľkom, fungujú aj v malom, len ich treba zmenšiť na rozumnú mieru. A väčšina problémov v marketingu nie
+            je v nástrojoch, ale v tom, že nikto nepovedal nahlas, čo nefunguje.“
+          </p>
+        </blockquote>
+        <figcaption>Igor Tittel</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="section section--end wrap">
+  <Proof />
+
+  <section class="section--end wrap">
     <div class="actions">
       <a class="btn" href="/dopyt/">Zistiť, čím vám vieme byť</a>
       <a class="textlink" href="/kontakt/">Alebo rovno napísať</a>
@@ -75,24 +87,58 @@ const schema = [
 </Base>
 
 <style>
-  .split {
+  .head {
     display: grid;
-    gap: 1rem;
-    align-items: start;
+    gap: 2rem;
+    padding-top: clamp(2rem, 1.5rem + 5vw, 6rem);
   }
-  .split > .lab {
-    padding-top: 0.9rem;
+  .head .lede {
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .claim {
+    font-size: var(--step-3);
+    max-width: 13em;
+  }
+  .cols {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: clamp(2rem, 5vw, 4rem);
+    padding-top: 1.5rem;
     border-top: 1px solid var(--ink);
-  }
-  .big {
     font-size: var(--step-1);
     line-height: 1.42;
-    max-width: 34em;
-    padding-top: 0.6rem;
+  }
+  .cols p {
+    max-width: 30em;
+  }
+  .igor {
+    padding-block: clamp(3.5rem, 9vw, 8rem);
+  }
+  figure,
+  blockquote {
+    margin: 0;
+  }
+  blockquote {
+    display: grid;
+    gap: 1.25em;
+    max-width: 30em;
+    font-size: clamp(1.4rem, 1.05rem + 1.7vw, 2.5rem);
+    font-weight: 360;
+    line-height: 1.24;
+    letter-spacing: -0.015em;
+  }
+  figcaption {
+    margin-top: 2rem;
+    font-weight: 620;
   }
   @media (min-width: 56rem) {
-    .split {
-      grid-template-columns: 3fr 9fr;
+    .head {
+      grid-template-columns: 7fr 5fr;
+      gap: 3rem;
+      align-items: end;
+    }
+    .cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 3rem;
     }
   }

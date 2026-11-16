@@ -39,6 +39,18 @@ export const services: Service[] = [
         q: 'Robíte aj e-shopy?',
         a: 'Áno, vrátane platieb, dopravy a e-commerce merania.',
       },
+      {
+        q: 'Viete prebrať a opraviť existujúci web?',
+        a: 'Áno. Najprv sa pozrieme, čo sa dá opraviť. Prerábať od základu odporučíme len vtedy, keď by opravy vyšli drahšie než nový web.',
+      },
+      {
+        q: 'Kto sa o web stará po spustení?',
+        a: 'Vy, ak chcete. Web odovzdáme so zaškolením a všetky prístupy sú na vaše meno. Ak sa o aktualizácie a úpravy starať nechcete, dohodneme sa na správe.',
+      },
+      {
+        q: 'Bude web pripravený na kampane a meranie?',
+        a: 'Áno. Meranie, súhlasy a konverzie nastavujeme ako súčasť webu, nie až po spustení.',
+      },
     ],
   },
   {
@@ -67,6 +79,18 @@ export const services: Service[] = [
       {
         q: 'Funguje meranie aj so súhlasmi podľa GDPR?',
         a: 'Áno. Tagy naviažeme na súhlas návštevníka cez Consent Mode, takže sa meria len to, na čo máte povolenie.',
+      },
+      {
+        q: 'Treba meranie postaviť odznova, alebo stačí opraviť to, čo máme?',
+        a: 'Väčšinou stačí opraviť. Začíname auditom, z ktorého vyjde zoznam: čo funguje, čo meria zle a čo chýba.',
+      },
+      {
+        q: 'Prečo čísla v GA4 nikdy nesedia presne s e-shopom?',
+        a: 'Úplná zhoda nie je reálna. Časť ľudí odmietne cookies a časť meranie blokuje. Cieľom je rozdiel, ktorý je malý, stabilný a viete ho vysvetliť.',
+      },
+      {
+        q: 'Čo od nás budete potrebovať?',
+        a: 'Prístup do GTM, GA4 a reklamných účtov a kontakt na človeka, ktorý vie upraviť web alebo e-shop.',
       },
     ],
   },
@@ -97,6 +121,18 @@ export const services: Service[] = [
         q: 'Preberiete aj existujúci účet?',
         a: 'Áno. Čo v ňom funguje, necháme bežať. Nezačíname od nuly len preto, aby bolo vidieť zmenu.',
       },
+      {
+        q: 'Kedy uvidíme výsledky?',
+        a: 'Prvé dáta prídu v priebehu dní. Na rozhodnutia treba počkať, kým sa nazbiera dosť konverzií. Pred spustením si povieme, aký je cieľ a kedy ho vyhodnotíme.',
+      },
+      {
+        q: 'Komu patria reklamné účty?',
+        a: 'Vám. Kampane bežia vo vašich účtoch a keď spolupráca skončí, všetko zostáva u vás.',
+      },
+      {
+        q: 'Potrebujeme mať najprv meranie?',
+        a: 'Aspoň základ áno. Bez neho sa nedá povedať, čo zarába. Ak chýba, začneme ním.',
+      },
     ],
   },
   {
@@ -120,11 +156,23 @@ export const services: Service[] = [
     faq: [
       {
         q: 'V akom nástroji pracujete?',
-        a: 'Pracujeme s tým, čo už máte, ak to stačí. Nový nástroj odporučíme až vtedy, keď ten súčasný brzdí to, čo potrebujete.',
+        a: 'Pracujeme s tým, čo už máte, ak to stačí. Skúsenosti máme s HubSpotom, Bloomreachom aj ActiveCampaign. Nový nástroj odporučíme až vtedy, keď ten súčasný brzdí to, čo potrebujete.',
       },
       {
         q: 'Koľko kontaktov treba mať, aby sa to oplatilo?',
         a: 'Základné scenáre ako uvítanie a opustený košík sa oplatia aj pri pár stovkách kontaktov. Zložitejšia personalizácia má zmysel až pri väčšej databáze.',
+      },
+      {
+        q: 'Čím začať?',
+        a: 'Scenármi, ktoré sú najbližšie k nákupu: uvítanie, opustený košík a starostlivosť po nákupe. Tie sa vrátia najskôr.',
+      },
+      {
+        q: 'Ako spoznáme, že automatizácia funguje?',
+        a: 'Každý scenár má vopred určené číslo, podľa ktorého ho hodnotíme, napríklad podiel dokončených objednávok alebo opakovaných nákupov. Čo nezaberá, upravíme alebo vypneme.',
+      },
+      {
+        q: 'Nebudú automatické správy pôsobiť ako spam?',
+        a: 'Nie, ak vychádzajú z toho, čo človek naozaj urobil, a prídu v správnom čase. Súčasťou návrhu sú aj pravidlá, kedy správu neposlať.',
       },
     ],
   },
@@ -151,6 +199,18 @@ export const services: Service[] = [
         q: 'Je omnichannel len pre veľké firmy?',
         a: 'Nie. Aj malý e-shop vie prepojiť e-mail, SMS a remarketing. Rozdiel je len v počte scenárov, nie v princípe.',
       },
+      {
+        q: 'Čím sa to líši od marketingovej automatizácie?',
+        a: 'Automatizácia rieši, čo pošle systém sám. Omnichannel rieši, aby na seba nadväzovali všetky kanály vrátane ľudí: obchodníka, podpory aj reklamy.',
+      },
+      {
+        q: 'Aké nástroje na to potrebujeme?',
+        a: 'Väčšinou stačí to, čo už máte: nástroj na e-maily, reklamné účty a CRM. Dôležité je, aby si medzi sebou vymieňali dáta.',
+      },
+      {
+        q: 'Kde začať?',
+        a: 'Pri jednom momente, kde nesúlad zákazník cíti najviac. Typicky je to chvíľa po nákupe alebo po dopyte.',
+      },
     ],
   },
   {
@@ -175,6 +235,18 @@ export const services: Service[] = [
       {
         q: 'Treba kvôli tomu meniť systémy, ktoré používame?',
         a: 'Väčšinou nie. Vo väčšine prípadov stačí prepojiť to, čo už máte.',
+      },
+      {
+        q: 'Ako zistíte, čo sa oplatí automatizovať?',
+        a: 'Spočítame, koľko času krok zaberá, ako často sa opakuje a čo stojí chyba. Podľa toho zoradíme, čím začať a čo nechať tak.',
+      },
+      {
+        q: 'Čo ak sa proces časom zmení?',
+        a: 'Automatizácie staviame tak, aby ich vedel upraviť aj niekto z vášho tímu, a odovzdávame ich s krátkym návodom.',
+      },
+      {
+        q: 'Týka sa to len marketingu?',
+        a: 'Nie. Najčastejšie ide o reporty, ponuky, faktúry a prenos údajov medzi systémami.',
       },
     ],
   },
@@ -205,6 +277,18 @@ export const services: Service[] = [
         q: 'Sú naše dáta v bezpečí?',
         a: 'Pred nasadením určíme, ktoré dáta do AI nástrojov ísť môžu a ktoré nie, a podľa toho vyberieme nástroj aj nastavenia.',
       },
+      {
+        q: 'Nahradí AI ľudí v tíme?',
+        a: 'O to nejde. Cieľom je, aby ľudia trávili menej času rutinou a viac prácou, na ktorú treba úsudok.',
+      },
+      {
+        q: 'Aké AI nástroje používate?',
+        a: 'Vyberáme podľa úlohy a podľa toho, čo už vo firme máte. Nástroj je až druhý krok. Prvý je vedieť, ktorú prácu má uľahčiť.',
+      },
+      {
+        q: 'Ako zmeriame, že sa to oplatilo?',
+        a: 'Pri každej úlohe si vopred zapíšeme, koľko času zaberá dnes. Po zavedení to zmeriame znova.',
+      },
     ],
   },
   {
@@ -229,6 +313,18 @@ export const services: Service[] = [
       {
         q: 'Aký je rozdiel medzi dizajn manuálom a brandbookom?',
         a: 'Dizajn manuál popisuje, ako značka vyzerá: logo, farby, písmo a ich použitie. Brandbook k tomu pridáva, ako značka hovorí a za čím stojí.',
+      },
+      {
+        q: 'Logo už máme. Treba ho meniť?',
+        a: 'Nie nutne. Ak funguje, necháme ho a doplníme pravidlá okolo neho: farby, písmo a príklady použitia.',
+      },
+      {
+        q: 'Potrebuje malá firma dizajn manuál?',
+        a: 'Stačí krátky. Aj pár strán ušetrí čas pri každom letáku, príspevku či ponuke a značka prestane vyzerať zakaždým inak.',
+      },
+      {
+        q: 'Viete na brand nadviazať webom?',
+        a: 'Áno. Keď robíme oboje, web vychádza z tých istých pravidiel a netreba nič prekladať medzi dodávateľmi.',
       },
     ],
   },

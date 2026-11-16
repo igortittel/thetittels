@@ -66,6 +66,9 @@ const graph = [org, ...schema];
     <Footer />
     {gtm && <Consent id={gtm} part="body" />}
     <script>
+      import { initMotion } from '../scripts/motion';
+      initMotion();
+
       // Linka pod hlavičkou po odskrolovaní.
       const head = document.querySelector('.head');
       const onScroll = () => head?.classList.toggle('is-scrolled', window.scrollY > 8);

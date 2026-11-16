@@ -15,18 +15,22 @@ import { services } from '../data/services';
             ladíme a opravujeme.
           </p>
           <div class="actions">
-            <a class="btn" href="/kontakt/">Napísať</a>
-            <a class="textlink" href="/sluzby/">Všetky služby</a>
+            <a class="btn" href="#diel-1" data-start>Zistiť viac</a>
           </div>
         </div>
         {
           services.map((s, i) => (
-            <article class="item" data-item={i} data-tagname={s.tag}>
+            <article class="item" id={`diel-${i + 1}`} data-item={i} data-tagname={s.tag}>
               <h2><a href={`/sluzby/${s.slug}/`}>{s.name}</a></h2>
               <dl>
                 <div><dt class="lab">Dnes</dt><dd class="muted">{s.today}</dd></div>
                 <div><dt class="lab">Potom</dt><dd>{s.after}</dd></div>
               </dl>
+              <p class="actions">
+                <a class="btn btn--line more" href={`/sluzby/${s.slug}/`}>
+                  Viac o službe<span aria-hidden="true">→</span>
+                </a>
+              </p>
             </article>
           ))
         }
@@ -119,13 +123,17 @@ import { services } from '../data/services';
       })
       .catch(() => section.classList.remove('is-live'));
 
-    buttons.forEach((button, i) =>
-      button.addEventListener('click', () => {
-        const top = section.getBoundingClientRect().top + window.scrollY;
-        const span = section.offsetHeight - window.innerHeight;
-        window.scrollTo({ top: top + span * (0.08 + ((i + 0.5) / buttons.length) * 0.84) });
-      }),
-    );
+    const goTo = (i: number) => {
+      const top = section.getBoundingClientRect().top + window.scrollY;
+      const span = section.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: top + span * (0.08 + ((i + 0.5) / buttons.length) * 0.84) });
+    };
+    buttons.forEach((button, i) => button.addEventListener('click', () => goTo(i)));
+    // „Zistiť viac“ v úvode posunie na prvý diel.
+    section.querySelector('[data-start]')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(0);
+    });
   }
 </script>
 
@@ -181,6 +189,15 @@ import { services } from '../data/services';
   }
   .actions {
     margin-top: 0.5rem;
+  }
+  .more {
+    gap: 0.6rem;
+  }
+  .more span {
+    transition: transform 0.3s var(--ease);
+  }
+  .more:hover span {
+    transform: translateX(0.3rem);
   }
 
   /* S JS: sekcia sa drží na mieste, text hore, stroj pod ním */
@@ -286,9 +303,6 @@ import { services } from '../data/services';
     .mech:global(.is-live) .sub,
     .mech:global(.is-live) dd {
       font-size: var(--step-0);
-    }
-    .mech:global(.is-live) .item:first-child .actions .textlink {
-      display: none;
     }
   }
   @media (min-width: 60rem) {

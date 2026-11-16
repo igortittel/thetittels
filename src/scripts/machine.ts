@@ -300,3 +300,28 @@ export function mountPart(canvas: HTMLCanvasElement, host: HTMLElement, index: n
   });
   return true;
 }
+
+/** Dve rovnaké kolesá, ktoré do seba zapadajú. Pre stránku O nás. */
+export function mountPair(canvas: HTMLCanvasElement, host: HTMLElement) {
+  const stage = createStage(canvas, host, 1.75, 2.55);
+  if (!stage) return false;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const distance = 1.05 * 2 - 1.05 * 0.11;
+  const pair = [buildPart(3), buildPart(3)];
+  pair.forEach((part, i) => {
+    part.group.position.x = (i ? 1 : -1) * (distance / 2);
+    stage.root.add(part.group);
+  });
+  // Os kolies je kolmo na pohľad, aby stáli vedľa seba.
+  stage.yaw = Math.PI / 4;
+  const offset = (Math.PI * 2) / 64;
+  loop(host, (t) => {
+    const angle = reduce ? 0 : t * 0.45;
+    pair[0].group.rotation.y = angle;
+    pair[1].group.rotation.y = -angle + offset;
+    stage.root.rotation.y = stage.yaw;
+    stage.root.rotation.x = stage.tilt * 0.6;
+    stage.renderer.render(stage.scene, stage.camera);
+  });
+  return true;
+}
