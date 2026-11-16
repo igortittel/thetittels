@@ -14,10 +14,16 @@ import { clients, sites, tools } from '../data/proof';
   <h2 class="intro wrap" id="h-tools">Nástroje, ktoré nám prešli rukami.</h2>
   <div class="tape">
     <ul class="tape__run">
-      {tools.map((name) => <li>{name}</li>)}
+      {tools.map((tool) => <li>
+        {tool.logo && <img src={tool.logo} alt="" width="40" height="40" loading="lazy" />}
+        <span>{tool.name}</span>
+      </li>)}
     </ul>
     <ul class="tape__run" aria-hidden="true">
-      {tools.map((name) => <li>{name}</li>)}
+      {tools.map((tool) => <li>
+        {tool.logo && <img src={tool.logo} alt="" width="40" height="40" loading="lazy" />}
+        <span>{tool.name}</span>
+      </li>)}
     </ul>
   </div>
 </section>
@@ -99,12 +105,18 @@ import { clients, sites, tools } from '../data/proof';
   .tape li {
     display: flex;
     align-items: center;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
     padding-block: clamp(1.1rem, 2.4vw, 2rem);
     font-size: var(--step-2);
     font-weight: 360;
     line-height: 1;
     letter-spacing: -0.022em;
     white-space: nowrap;
+  }
+  .tape img {
+    width: 1em;
+    height: 1em;
+    flex: none;
   }
   .tape li::after {
     content: '';
